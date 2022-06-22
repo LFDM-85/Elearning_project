@@ -13,6 +13,9 @@ export class UsersService {
   }
 
   async findById(id: string) {
+    if (!id) {
+      return null;
+    }
     return await this.userModel.findById(id).exec();
   }
 
