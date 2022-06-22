@@ -3,6 +3,10 @@
 /backend/node_modules
 /banckend/.env
 
+/frontend/dist
+/frontend/node_modules
+/frontend/.env
+
 # Logs
 logs
 *.log
