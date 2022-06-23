@@ -21,7 +21,7 @@ export const LandingPage = () => {
       >
         <Grid direction="column-reverse">
           <Typography ml={6} variant="h1" component="h1">
-            Elearn School
+            E-le@rn School
           </Typography>
           <Typography mt={10} variant="h4" component="h4">
             Best elearning tool for teachers and students
