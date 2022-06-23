@@ -1,41 +1,58 @@
-import { Button, CssBaseline, Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-import HeroImage from '../assets/Work from home.png';
+import HeroImage from '../assets/Work.png';
 
 export const LandingPage = () => {
+  const navigate = useNavigate();
+
+  const clickHandler = () => {
+    navigate('/sign');
+  };
+
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
-      <CssBaseline />
-
       <Grid
         container
         direction="column"
         justifyContent="center"
         alignItems="center"
-        xs={12}
-        sx={{
-          backgroundImage: `${require('../assets/Work from home.png')}`,
+        xs={6}
+      >
+        <Grid direction="column-reverse">
+          <Typography ml={6} variant="h1" component="h1">
+            Elearn School
+          </Typography>
+          <Typography mt={10} variant="h4" component="h4">
+            Best elearning tool for teachers and students
+          </Typography>
+        </Grid>
+        <Grid margin={6}>
+          <Button
+            onClick={clickHandler}
+            size="large"
+            variant="contained"
+            color="secondary"
+          >
+            Start Now
+          </Button>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="right"
+        xs={6}
+        style={{
+          backgroundImage: `url(${HeroImage})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          height: '100%',
         }}
-      >
-        <Typography variant="h2" component="h2">
-          Elearn School
-        </Typography>
-        <Typography variant="h4" component="h4">
-          Best elearning tool for teachers and students
-        </Typography>
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Button variant="contained">SignUp</Button>
-          <Button variant="contained">SignIn</Button>
-        </Grid>
-      </Grid>
+      ></Grid>
     </Grid>
   );
 };
