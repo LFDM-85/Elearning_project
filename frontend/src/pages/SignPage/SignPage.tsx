@@ -10,23 +10,35 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
-import axios from 'axios';
+import { useEffect } from 'react';
 
 export function SignPage() {
   let data: any;
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
-    axios
-      .post('http://localhost:5000/auth/signin', data)
-      .then((res) => console.log(res.data));
 
     return data;
   };
+
+  useEffect(() => {
+    fetch('http://localhost:5000/auth/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  }, []);
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
