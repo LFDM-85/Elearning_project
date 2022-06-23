@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import HeroImage from '../assets/Work.png';
+import HeroImage from '../../assets/Work.png';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export const LandingPage = () => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        xs={6}
+        xs={5}
       >
         <Grid direction="column-reverse">
           <Typography ml={6} variant="h1" component="h1">
