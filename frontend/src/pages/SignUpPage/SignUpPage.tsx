@@ -12,19 +12,20 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
 
-export function SignPage() {
+export function SignUpPage() {
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const data = new FormData(event.currentTarget);
 
       const inputs = {
+        name: data.get('name'),
         email: data.get('email'),
         password: data.get('password'),
       };
 
       await axios
-        .post('http://localhost:5000/auth/signin', inputs)
+        .post('http://localhost:5000/auth/signup', inputs)
         .then((res) => {
           console.log(res);
           console.log(res.data);
@@ -62,7 +63,7 @@ export function SignPage() {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign Up
           </Typography>
           <Box
             component="form"
@@ -70,6 +71,16 @@ export function SignPage() {
             onSubmit={submitHandler}
             sx={{ mt: 1 }}
           >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Your Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
             <TextField
               margin="normal"
               required
@@ -101,7 +112,7 @@ export function SignPage() {
               color="secondary"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Sign Up
             </Button>
             <Grid container>
               <Grid item>
