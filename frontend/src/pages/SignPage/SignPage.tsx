@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -15,29 +15,57 @@ import { useNavigate } from 'react-router-dom';
 
 export function SignPage() {
   const navigate = useNavigate();
+  const [signIn, setSignIn] = useState(true);
+
+  const signUpToggleHandler = () => {
+    setSignIn((prevState) => {
+      return !prevState;
+    });
+  };
+
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const data = new FormData(event.currentTarget);
 
-      const inputs = {
-        email: data.get('email'),
-        password: data.get('password'),
-      };
+    const data = new FormData(event.currentTarget);
 
+    const inputs = {
+      name: data.get('name'),
+      email: data.get('email'),
+      password: data.get('password'),
+    };
+
+    const signRoute: string = signIn
+      ? 'http://localhost:5000/auth/signin'
+      : 'http://localhost:5000/auth/signup';
+
+    if (signIn) {
       await axios
-        .post('http://localhost:5000/auth/signin', inputs)
+        .post(signRoute, inputs)
         .then((res) => {
-          if (res.status !== 201) return;
+          console.log(res);
           if (res.status === 201) {
             navigate('/my');
-            console.log('Ligação estabelecida');
+            console.log('User logged In');
+            return;
           }
-
-          return res.data;
+        })
+        .catch(function (error) {
+          console.log(error.message);
         });
-    } catch (error) {
-      console.log('User not found!');
+    }
+
+    if (!signIn) {
+      await axios
+        .post(signRoute, inputs)
+        .then((res) => {
+          console.log(res);
+          navigate('/');
+          console.log('User created');
+          return;
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
     }
   };
 
@@ -68,7 +96,7 @@ export function SignPage() {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign in
+            {!signIn ? 'Sign Up' : 'Sign In'}
           </Typography>
           <Box
             component="form"
@@ -76,6 +104,18 @@ export function SignPage() {
             onSubmit={submitHandler}
             sx={{ mt: 1 }}
           >
+            {!signIn && (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="name"
+                label="Your Name"
+                name="name"
+                autoComplete="name"
+                autoFocus
+              />
+            )}
             <TextField
               margin="normal"
               required
@@ -107,12 +147,14 @@ export function SignPage() {
               color="secondary"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {!signIn ? 'Sign Up' : 'Sign In'}
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
-                  Dont have an account? Sign Up
+                <Link href="#" variant="body2" onClick={signUpToggleHandler}>
+                  {signIn
+                    ? 'Dont have an account? Sign Up'
+                    : 'Have an account? Sign In'}
                 </Link>
               </Grid>
             </Grid>
