@@ -1,10 +1,12 @@
-import React from 'react';
 import { SideBar } from '../../shared/components/SideBar/SideBar';
+import { MyLayout } from '../../shared/layouts/MyLayout';
 
-export const MyPage = () => {
+export const MyPage: React.FC = () => {
   return (
     <div>
-      <SideBar />
+      <SideBar>
+        <MyLayout />
+      </SideBar>
     </div>
   );
 };

@@ -23,7 +23,7 @@ export function SignPage() {
     });
   };
 
-  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
@@ -39,27 +39,29 @@ export function SignPage() {
       : 'http://localhost:5000/auth/signup';
 
     if (signIn) {
-      await axios
+      axios
         .post(signRoute, inputs)
         .then((res) => {
           console.log(res);
           if (res.status === 201) {
-            navigate('/my');
+            navigate('/my', { replace: true });
             console.log('User logged In');
             return;
           }
         })
         .catch(function (error) {
+          alert(error.message);
           console.log(error.message);
         });
     }
 
     if (!signIn) {
-      await axios
+      axios
         .post(signRoute, inputs)
         .then((res) => {
           console.log(res);
-          navigate('/');
+          navigate('/', { replace: true });
+          alert('User was created! Please Sign In');
           console.log('User created');
           return;
         })

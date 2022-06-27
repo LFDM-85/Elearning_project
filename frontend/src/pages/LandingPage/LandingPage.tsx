@@ -19,7 +19,7 @@ export const LandingPage = () => {
         alignItems="center"
         xs={5}
       >
-        <Grid direction="column-reverse">
+        <Grid container direction="column">
           <Typography ml={6} variant="h1" component="h1">
             E-le@rn School
           </Typography>
