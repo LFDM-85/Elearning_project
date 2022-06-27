@@ -11,8 +11,10 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export function SignPage() {
+  const navigate = useNavigate();
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -26,8 +28,12 @@ export function SignPage() {
       await axios
         .post('http://localhost:5000/auth/signin', inputs)
         .then((res) => {
-          console.log(res);
-          console.log(res.data);
+          if (res.status !== 201) return;
+          if (res.status === 201) {
+            navigate('/my');
+            console.log('Ligação estabelecida');
+          }
+
           return res.data;
         });
     } catch (error) {
