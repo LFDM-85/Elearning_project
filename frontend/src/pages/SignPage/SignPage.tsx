@@ -50,7 +50,7 @@ export function SignPage() {
           }
         })
         .catch(function (error) {
-          alert(error.message);
+          alert('User not found!');
           console.log(error.message);
         });
     }
@@ -66,6 +66,7 @@ export function SignPage() {
           return;
         })
         .catch(function (error) {
+          alert('User already exists!');
           console.log(error.message);
         });
     }

@@ -46,7 +46,6 @@ export const SideBar: React.FC = ({ children }: any) => {
           >
             <Avatar
               sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
-              src="https://media-exp2.licdn.com/dms/image/C4E03AQHAS2oTN1laMg/profile-displayphoto-shrink_800_800/0/1654765123163?e=1661990400&v=beta&t=UxiJJdZBfhWN7N3m261D6BIyEN4QMToyjq_tjFcO2wI"
             />
           </Box>
           <Box
