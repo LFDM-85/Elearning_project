@@ -17,7 +17,7 @@ import {
 import { Box } from '@mui/system';
 import React from 'react';
 
-export const SideBar: React.FC = ({ children }: any) => {
+export const SideBar: React.FC<React.ReactNode | Element> = (props) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -97,7 +97,7 @@ export const SideBar: React.FC = ({ children }: any) => {
         </Box>
       </Drawer>
       <Box height="100vh" marginLeft={smDown ? 0 : theme.spacing(28)}>
-        {children}
+        {props.children}
       </Box>
     </>
   );
