@@ -27,6 +27,7 @@ export const SideBar: React.FC<React.ReactNode | Element> = (props) => {
   const signOutHandler = () => {
     alert('User logged Out');
     console.log('User logged Out');
+    localStorage.clear();
 
     axios.post('http://localhost:5000/auth/signout').then((res) => {
       console.log(res);

@@ -13,7 +13,7 @@ import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export function SignPage(props) {
+export function SignPage() {
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
 
@@ -45,7 +45,7 @@ export function SignPage(props) {
           console.log(res);
           if (res.status === 201) {
             navigate('/my', { replace: true });
-            props.authenticated();
+            localStorage.setItem('isLogged', '1');
 
             console.log('User logged In');
             return;
