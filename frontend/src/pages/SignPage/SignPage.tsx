@@ -13,7 +13,7 @@ import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export function SignPage() {
+export function SignPage(props) {
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
 
@@ -45,6 +45,8 @@ export function SignPage() {
           console.log(res);
           if (res.status === 201) {
             navigate('/my', { replace: true });
+            props.authenticated();
+
             console.log('User logged In');
             return;
           }
@@ -61,6 +63,7 @@ export function SignPage() {
         .then((res) => {
           console.log(res);
           navigate('/', { replace: true });
+
           alert('User was created! Please Sign In');
           console.log('User created');
           return;

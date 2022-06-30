@@ -16,16 +16,23 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const SideBar: React.FC<React.ReactNode | Element> = (props) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
   const signOutHandler = () => {
     alert('User logged Out');
     console.log('User logged Out');
-  };
 
+    axios.post('http://localhost:5000/auth/signout').then((res) => {
+      console.log(res);
+      navigate('/', { replace: true });
+    });
+  };
   return (
     <>
       <Drawer open={true} variant={smDown ? 'temporary' : 'permanent'}>
