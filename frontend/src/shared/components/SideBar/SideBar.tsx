@@ -86,13 +86,13 @@ export const SideBar: React.FC<React.ReactNode | Element> = (props) => {
                 <ListItemIcon>
                   <SchoolIcon />
                 </ListItemIcon>
-                <ListItemText secondary="Assessements"></ListItemText>
+                <ListItemText secondary="Assessments"></ListItemText>
               </ListItemButton>
               <ListItemButton>
                 <ListItemIcon>
                   <ManageAccountsIcon />
                 </ListItemIcon>
-                <ListItemText secondary="Managment"></ListItemText>
+                <ListItemText secondary="Management"></ListItemText>
               </ListItemButton>
               <ListItemButton onClick={signOutHandler}>
                 <ListItemIcon>
