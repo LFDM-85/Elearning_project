@@ -10,9 +10,11 @@ async function bootstrap() {
   app.use(
     cors(),
     cookieSession({
+      name: 'session',
       keys: ['asdfasdf'],
     }),
   );
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
