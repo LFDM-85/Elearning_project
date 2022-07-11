@@ -5,13 +5,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 
+require('dotenv').config();
+
+const URL = process.env.DATABASE_URL;
+
 @Module({
-  imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://luisfdmelo:Q7PNubeJxG8d6Ll8@cluster0.lbzvv.mongodb.net/?retryWrites=true&w=majority',
-    ),
-    UsersModule,
-  ],
+  imports: [MongooseModule.forRoot(URL), UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
