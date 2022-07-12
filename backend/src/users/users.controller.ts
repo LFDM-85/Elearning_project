@@ -48,6 +48,7 @@ export class UsersController {
       body.name,
     );
     session.userId = user.id;
+
     return user;
   }
 
