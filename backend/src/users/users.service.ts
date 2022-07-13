@@ -25,6 +25,10 @@ export class UsersService {
     return await this.usersModel.findOne(id).exec();
   }
 
+  async findEmail(email: string) {
+    return await this.usersModel.findOne({ email }).exec();
+  }
+
   async update(id: number, Users: UpdateUserDto) {
     const user = await this.findOne(id);
     if (!user) throw new NotFoundException('User not found!');
