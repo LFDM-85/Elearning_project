@@ -34,15 +34,15 @@ export function SignPage() {
       password: data.get('password'),
     };
 
-    const signRoute: string = signIn
-      ? 'http://localhost:5000/auth/signin'
-      : 'http://localhost:5000/auth/signup';
+    const URL = 'http://localhost:5000/auth/';
+
+    const signRoute: string = signIn ? URL + 'signin' : URL + 'signup';
 
     if (signIn) {
       axios
         .post(signRoute, inputs)
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
           if (res.status === 201) {
             navigate('/my', { replace: true });
             localStorage.setItem('isLogged', '1');
