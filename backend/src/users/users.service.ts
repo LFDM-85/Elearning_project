@@ -3,6 +3,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Users } from './entities/user.entity';
+import { encodePassword } from '../utils/bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -10,6 +11,8 @@ export class UsersService {
 
   // creates a user entity instance
   async create(email: string, password: string, name: string, role: string[]) {
+    password = encodePassword(password);
+    console.log(password);
     const user = await this.usersModel.create({ email, password, name, role });
     return user.save(); // saves the entity in MongoDB
   }
