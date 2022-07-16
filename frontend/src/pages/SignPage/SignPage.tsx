@@ -98,7 +98,7 @@ export function SignPage() {
           }}
         >
           <Typography component="h1" variant="h5">
-            {!signIn ? 'Sign Up' : 'Sign In'}
+            {!signIn ? 'Sign Up - Professors Only' : 'Sign In'}
           </Typography>
           <Box
             component="form"
