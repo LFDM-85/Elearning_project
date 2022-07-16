@@ -28,7 +28,9 @@ export function SignPage() {
 
     const data = new FormData(event.currentTarget);
 
-    const inputs = {name: data.get('name'), email: data.get('email'), password: data.get('password'), role : ['professor']};
+    const PROFESSOR_ROLE = ['professor']; // default role added in signUp
+
+    const inputs = {name: data.get('name'), email: data.get('email'), password: data.get('password'), role : PROFESSOR_ROLE };
 
     const URL = 'http://localhost:5000/auth/';
 
