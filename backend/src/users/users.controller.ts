@@ -19,8 +19,13 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/signup')
-  createUser(@Body() body: CreateUserDto) {
-    this.usersService.create(body.email, body.password, body.name, body.role);
+  async createUser(@Body() body: CreateUserDto) {
+    return await this.usersService.create(
+      body.email,
+      body.password,
+      body.name,
+      body.role,
+    );
   }
   @UseGuards(JwtAuthGuard)
   @Get('/')

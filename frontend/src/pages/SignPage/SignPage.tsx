@@ -28,9 +28,9 @@ export function SignPage() {
 
     const data = new FormData(event.currentTarget);
 
-    const PROFESSOR_ROLE = ['professor']; // default role added in signUp
+    const PROFESSOR_ROLE = ['professor']; // default role on signUp
 
-    const inputs = {name: data.get('name'), email: data.get('email'), password: data.get('password'), role : PROFESSOR_ROLE };
+    const inputs = {name: data.get('name'), email: data.get('email'), password: data.get('password')};
 
     const URL = 'http://localhost:5000/auth/';
 
@@ -57,7 +57,7 @@ export function SignPage() {
 
     if (!signIn) {
       axios
-        .post(signRoute, inputs)
+        .post(signRoute, {...inputs, role : PROFESSOR_ROLE })
         .then((res) => {
           console.log(res);
           navigate('/', { replace: true });

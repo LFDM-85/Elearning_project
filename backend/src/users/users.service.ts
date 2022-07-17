@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -11,8 +15,12 @@ export class UsersService {
 
   // creates a user entity instance
   async create(email: string, password: string, name: string, role: string[]) {
+    const users = await this.usersModel.find({ email });
+    if (users.length) throw new BadRequestException('Email in use');
+
     password = encodePassword(password);
     console.log(password);
+
     const user = await this.usersModel.create({ email, password, name, role });
     return user.save(); // saves the entity in MongoDB
   }
