@@ -2,8 +2,6 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -40,10 +38,10 @@ export function SignPage() {
       axios
         .post(signRoute, inputs)
         .then((res) => {
-          console.log(res.data);
+          console.log(res);
           if (res.status === 201) {
             navigate('/my', { replace: true });
-            localStorage.setItem('isLogged', '1');
+            localStorage.setItem('token', res.data['access_token']);
 
             console.log('User logged In');
             return;
@@ -139,10 +137,6 @@ export function SignPage() {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="secondary" />}
-              label="Remember me"
             />
             <Button
               type="submit"
