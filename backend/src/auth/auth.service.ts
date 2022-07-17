@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { comparePasswords } from '../utils/bcrypt';
+import { Users } from '../users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,7 @@ export class AuthService {
     console.log('User Validation failed!');
     return null;
   }
-  async signin(user: any) {
+  async signin(user: Users) {
     const payload = { email: user.email, name: user.name, role: user.role };
     return {
       access_token: this.jwtService.sign(payload),
