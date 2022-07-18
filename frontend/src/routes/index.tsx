@@ -13,7 +13,7 @@ export const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/sign" element={<SignPage />} />
-      {token ? <Route path="/my" element={<MyPage />} /> : <Route path="/" />}
+      {token && token=== cookies.get('token') ? <Route path="/my" element={<MyPage />} /> : <Route path="/" />}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
