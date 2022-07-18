@@ -10,6 +10,9 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import  Cookies  from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export function SignPage() {
   const navigate = useNavigate();
@@ -40,9 +43,8 @@ export function SignPage() {
         .then((res) => {
           console.log(res);
           if (res.status === 201) {
+            cookies.set('token', res.data['access_token'], {path: '/'});
             navigate('/my', { replace: true });
-            localStorage.setItem('token', res.data['access_token']);
-
             console.log('User logged In');
             return;
           }
