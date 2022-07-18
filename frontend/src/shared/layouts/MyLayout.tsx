@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const MyLayout = () => {
+export const MyLayout: React.FC<React.ReactNode> = (props) => {
   return <div>MyLayout</div>;
 };
