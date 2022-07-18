@@ -1,11 +1,11 @@
 # compiled output
 /backend/dist
 /backend/node_modules
-/banckend/.env
+# /banckend/.env
 
 /frontend/dist
 /frontend/node_modules
-/frontend/.env
+# /frontend/.env
 
 # Logs
 logs
