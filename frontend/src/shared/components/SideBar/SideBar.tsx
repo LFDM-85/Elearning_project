@@ -29,6 +29,7 @@ export const SideBar: React.FC<any> = (props) => {
   const signOutHandler = () => {
     alert('User logged Out');
     console.log('User logged Out');
+    cookies.remove('username');
     cookies.remove('token');
     navigate('/', { replace: true });
 
@@ -64,7 +65,7 @@ export const SideBar: React.FC<any> = (props) => {
             justifyContent="center"
           >
             <Typography variant="h5" component="h5">
-              Admin
+              {props.currUser}
             </Typography>
           </Box>
 

@@ -42,12 +42,13 @@ export function SignPage() {
         .post(signRoute, inputs)
         .then((res) => {
           console.log(res);
-          if (res.status === 201) {
-            cookies.set('token', res.data['access_token'], {path: '/'});
-            console.log('User logged In');
-            navigate('/my', { replace: true });
-            return;
-          }
+          cookies.set('token', res.data['access_token'], {path: '/my'});
+          cookies.set('username', res.data.user.name, {path: '/my'});
+
+          console.log('User logged In');
+          navigate('/my', { replace: true });
+          return;
+
         })
         .catch(function (error) {
           alert('User not found!');
