@@ -4,12 +4,13 @@ import { MyPage } from '../pages/MyPage/MyPage';
 import { SignPage } from '../pages/SignPage/SignPage';
 import Cookies from 'universal-cookie';
 
-export const AppRoutes = () => {
+const cookies = new Cookies();
+const getUsername = () => {
+  const username = cookies.get('username');
+  return  username ? username : '';
+};
 
-  const cookies = new Cookies();
-  const getUsername = () => {
-    return  cookies.get('username');
-  };
+export const AppRoutes = () => {
 
   return (
     <Routes>
