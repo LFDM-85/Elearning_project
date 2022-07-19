@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -10,13 +10,15 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import  Cookies  from 'universal-cookie';
+import { AuthContext} from '../../routes';
+// import  Cookies  from 'universal-cookie';
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
+  const { dispatch }: any = React.useContext(AuthContext);
 
   const signUpToggleHandler = () => {
     setSignIn((prevState) => {
@@ -42,8 +44,11 @@ export function SignPage(): JSX.Element {
         .post(signRoute, inputs)
         .then((res) => {
           console.log(res);
-          cookies.set('token', res.data['access_token'], {path: '/'});
-          cookies.set('username', res.data.user.name);
+          dispatch({
+            type: 'SignIn', payload: res.data
+          });
+          // cookies.set('token', res.data['access_token'], {path: '/'});
+          // cookies.set('username', res.data.user.name);
 
           console.log('User logged In');
           navigate('/my', { replace: true });

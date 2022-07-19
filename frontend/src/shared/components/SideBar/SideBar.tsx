@@ -17,20 +17,22 @@ import {
 import { Box } from '@mui/system';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
+import {AuthContext} from '../../../routes';
 
-const cookies = new Cookies();
 
 export const SideBar: React.FC<any> = (props) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const { dispatch }: any = React.useContext(AuthContext);
 
   const signOutHandler = () => {
     alert('User logged Out');
     console.log('User logged Out');
-    cookies.remove('username');
-    cookies.remove('token');
+    dispatch({
+      type: 'SignOut'
+    });
+
     navigate('/', { replace: true });
 
   };
