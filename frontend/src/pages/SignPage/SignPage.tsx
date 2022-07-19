@@ -14,7 +14,7 @@ import  Cookies  from 'universal-cookie';
 
 const cookies = new Cookies();
 
-export function SignPage() {
+export function SignPage(): JSX.Element {
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
 
@@ -42,8 +42,7 @@ export function SignPage() {
         .post(signRoute, inputs)
         .then((res) => {
           console.log(res);
-          cookies.set('token', res.data['access_token'], {path: '/my'});
-          cookies.set('username', res.data.user.name, {path: '/my'});
+          cookies.set('token', res.data['access_token'], {path: '/'});
 
           console.log('User logged In');
           navigate('/my', { replace: true });
