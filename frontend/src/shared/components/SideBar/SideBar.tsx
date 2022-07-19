@@ -21,7 +21,7 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
-export const SideBar: React.FC<React.ReactNode | Element> = (props) => {
+export const SideBar: React.FC<any> = (props) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
@@ -43,13 +43,15 @@ export const SideBar: React.FC<React.ReactNode | Element> = (props) => {
           flexDirection="column"
         >
           <Box
+
             width="100%"
             height={theme.spacing(20)}
             display="flex"
-            alignIntems="center"
+            alignItems="center"
             justifyContent="center"
             marginTop={theme.spacing(3)}
             marginBottom={theme.spacing(-3)}
+
           >
             <Avatar
               sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
@@ -58,7 +60,7 @@ export const SideBar: React.FC<React.ReactNode | Element> = (props) => {
           <Box
             width="100%"
             display="flex"
-            alignIntems="center"
+            alignItems="center"
             justifyContent="center"
           >
             <Typography variant="h4" component="h4">

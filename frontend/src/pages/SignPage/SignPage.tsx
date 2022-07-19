@@ -44,8 +44,8 @@ export function SignPage() {
           console.log(res);
           if (res.status === 201) {
             cookies.set('token', res.data['access_token'], {path: '/'});
-            navigate('/my', { replace: true });
             console.log('User logged In');
+            navigate('/my', { replace: true });
             return;
           }
         })

@@ -1,8 +1,8 @@
 import { SideBar } from '../../shared/components/SideBar/SideBar';
 import { MyLayout } from '../../shared/layouts/MyLayout';
-import React from 'react';
+import React, {ReactElement} from 'react';
 
-export const MyPage: React.FC< React.ReactNode> = () => {
+export const MyPage: React.FC<any> = (): ReactElement => {
   return (
     <div>
       <SideBar>
