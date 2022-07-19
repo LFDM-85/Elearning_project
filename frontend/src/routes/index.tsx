@@ -2,17 +2,22 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { LandingPage } from '../pages/LandingPage/LandingPage';
 import { MyPage } from '../pages/MyPage/MyPage';
 import { SignPage } from '../pages/SignPage/SignPage';
+import Cookies from 'universal-cookie';
 
 
-const token = localStorage.getItem('token');
+const cookies = new Cookies();
+
 export const AppRoutes = () => {
 
+  const getUsername = () => {
+    return cookies.get('username');
+  };
 
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/sign" element={<SignPage />} />
-      {token ? <Route path="/my" element={<MyPage currUser='Current User'/>}/> : <Route path='/'/>}
+      <Route path="/my" element={<MyPage currUser={getUsername()} />}/>
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
