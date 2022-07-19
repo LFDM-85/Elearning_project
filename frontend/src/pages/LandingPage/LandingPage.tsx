@@ -11,15 +11,15 @@ export const LandingPage = () => {
   };
 
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
+    <Grid container component="main"  sx={{ height: '100vh' }}>
       <Grid
         container
         direction="column"
         justifyContent="center"
         alignItems="center"
-        xs={5}
+        xl={5}
       >
-        <Grid container direction="column">
+        <Grid container direction="column" justifyContent='center' alignItems='center'>
           <Typography ml={6} variant="h1" component="h1">
             E-le@rn School
           </Typography>
@@ -44,11 +44,12 @@ export const LandingPage = () => {
         direction="column"
         justifyContent="center"
         alignItems="right"
-        xs={6}
+        xl={6}
         style={{
           backgroundImage: `url(${HeroImage})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
+          resize: 'both',
           backgroundPosition: 'center',
           height: '100%',
         }}
