@@ -10,9 +10,9 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import  Cookies  from 'universal-cookie';
+// import  Cookies  from 'universal-cookie';
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
@@ -42,8 +42,8 @@ export function SignPage(): JSX.Element {
         .post(signRoute, inputs)
         .then((res) => {
           console.log(res);
-          cookies.set('token', res.data['access_token'], {path: '/'});
-
+          // cookies.set('token', res.data['access_token'], {path: '/'});
+          localStorage.setItem('token', res.data['access_token']);
           console.log('User logged In');
           navigate('/my', { replace: true });
           return;

@@ -17,9 +17,9 @@ import {
 import { Box } from '@mui/system';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 export const SideBar: React.FC<any> = (props) => {
   const navigate = useNavigate();
@@ -29,8 +29,8 @@ export const SideBar: React.FC<any> = (props) => {
   const signOutHandler = () => {
     alert('User logged Out');
     console.log('User logged Out');
-    cookies.remove('username');
-    cookies.remove('token');
+    // cookies.remove('token');
+    localStorage.removeItem('token');
     navigate('/', { replace: true });
 
   };
