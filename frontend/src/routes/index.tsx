@@ -44,7 +44,7 @@ export const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/sign" element={<SignPage />} />
-        {state.isAuthenticated ? <Route path="/my" element={<MyPage currUser={state.user.name} />}/>: <Route path='/'/> }
+        {state.isAuthenticated ? <Route path="/my" element={<MyPage currUser={state.user} />}/>: <Route path='/'/> }
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </AuthContext.Provider>

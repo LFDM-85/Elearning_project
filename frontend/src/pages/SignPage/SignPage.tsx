@@ -11,9 +11,7 @@ import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext} from '../../routes';
-// import  Cookies  from 'universal-cookie';
 
-// const cookies = new Cookies();
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
@@ -47,11 +45,11 @@ export function SignPage(): JSX.Element {
           dispatch({
             type: 'SignIn', payload: res.data
           });
-          // cookies.set('token', res.data['access_token'], {path: '/'});
-          // cookies.set('username', res.data.user.name);
+
 
           console.log('User logged In');
           navigate('/my', { replace: true });
+
           return;
 
         })
@@ -70,12 +68,14 @@ export function SignPage(): JSX.Element {
 
           alert('User was created! Please Sign In');
           console.log('User created');
+
           return;
         })
         .catch(function (error) {
           alert('User already exists!');
           console.log(error.message);
         });
+
     }
   };
 

@@ -5,8 +5,8 @@ import React, {ReactElement} from 'react';
 export const MyPage: React.FC<any> = (props): ReactElement => {
   return (
     <div>
-      <SideBar currUser={props.currUser}>
-        <MyLayout currUser={props.currUser}/>
+      <SideBar currUser={props.currUser.name}>
+        <MyLayout currUser={props.currUser.name}/>
       </SideBar>
     </div>
   );
