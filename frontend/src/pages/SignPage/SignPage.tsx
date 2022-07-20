@@ -46,7 +46,6 @@ export function SignPage(): JSX.Element {
             type: 'SignIn', payload: res.data
           });
 
-
           console.log('User logged In');
           navigate('/my', { replace: true });
 
