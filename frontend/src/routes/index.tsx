@@ -22,7 +22,6 @@ interface IPayload{
   'access_token': string;
 }
 
-
 interface IAction {
   type: string;
   payload: IPayload;
@@ -38,7 +37,7 @@ const initialState = {
   token: null,
 };
 
-export const AuthContext = React.createContext<ContextType | IState>(initialState);
+export const AuthContext = React.createContext<ContextType | IState | IAction>(initialState);
 
 const reducer = (state: IState, action: IAction) => {
   switch (action.type) {

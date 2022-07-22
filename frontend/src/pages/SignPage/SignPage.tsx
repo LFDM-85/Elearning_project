@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext} from '../../routes';
 
 
+
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
@@ -45,7 +46,6 @@ export function SignPage(): JSX.Element {
           dispatch({
             type: 'SignIn', payload: res.data
           });
-
           console.log('User logged In');
           navigate('/my', { replace: true });
 
@@ -76,6 +76,7 @@ export function SignPage(): JSX.Element {
         });
 
     }
+
   };
 
   return (
