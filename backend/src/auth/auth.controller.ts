@@ -11,16 +11,15 @@ export class AuthController {
   @Post('auth/signin')
   async signin(@Request() req: any, @Res({ passthrough: true }) res: Response) {
     const token = await this.authService.signin(req.user);
-    const refreshToken = await this.authService.getRefreshToken(
-      req.user.userId,
-    );
+    const refreshToken = await this.authService.getRefreshToken(req.user);
     const secretData = {
       token,
       refreshToken,
     };
     res.cookie('auth-cookie', secretData, { httpOnly: true });
+    req.user = { ...req.user, ...refreshToken.userDataToUpdate };
+    console.log(req.user);
     return this.authService.signin(req.user);
-
   }
 
   @Get('auth/refresh')
@@ -30,15 +29,15 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const token = await this.authService.signin(req.user);
-    const refreshToken = await this.authService.getRefreshToken(
-      req.user.userId,
-    );
+    const refreshToken = await this.authService.getRefreshToken(req.user);
     const secretData = {
       token,
       refreshToken,
     };
 
     res.cookie('auth-cookie', secretData, { httpOnly: true });
+    req.user = { ...req.user, ...refreshToken.userDataToUpdate };
+    console.log(req.user);
     return { msg: 'success' };
   }
 }

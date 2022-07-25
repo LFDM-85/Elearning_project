@@ -16,9 +16,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   role: string[];
   @IsString()
-  @IsOptional()
   refreshToken: string;
   @IsString()
-  @IsOptional()
   refreshTokenExp: string;
+
 }

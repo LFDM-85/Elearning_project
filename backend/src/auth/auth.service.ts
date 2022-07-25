@@ -8,7 +8,7 @@ import * as moment from 'moment';
 
 @Injectable()
 export class AuthService {
-  private user: any;
+  private user: Users;
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
@@ -35,17 +35,11 @@ export class AuthService {
       refreshToken: randomToken.generate(16),
       refreshTokenExp: moment().day(1).format('DD/MM/YYYY'),
     };
+    console.log(user);
     return { user, userDataToUpdate };
   }
 
   async signin(user: Users) {
-    const payload = {
-      email: user.email,
-      name: user.name,
-      role: user.role,
-    };
-
-    // const access_token = this.jwtService.sign(payload);
 
     return {
       user,
