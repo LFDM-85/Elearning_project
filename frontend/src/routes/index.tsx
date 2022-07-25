@@ -1,8 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { LandingPage } from '../pages/LandingPage/LandingPage';
 import React, {Suspense, lazy} from 'react';
-// import { AuthContext} from '../shared/store/auth-context';
 import { IState, IAction, ContextType} from '../shared/interfaces/interfaces';
+
+
 
 
 const initialState = {
@@ -41,6 +42,9 @@ export const AppRoutes = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const MyPage = lazy(() => import('../pages/MyPage/MyPage').then(({MyPage}) => ({ default: MyPage})));
   const SignPage = lazy(() => import ('../pages/SignPage/SignPage').then(({SignPage}) => ({ default: SignPage})));
+
+
+
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
