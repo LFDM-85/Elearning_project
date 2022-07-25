@@ -27,6 +27,8 @@ export function SignPage(): JSX.Element {
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
+
 
     const data = new FormData(event.currentTarget);
 
@@ -42,7 +44,8 @@ export function SignPage(): JSX.Element {
       axios
         .post(signRoute, inputs)
         .then((res) => {
-          console.log(res);
+
+
           dispatch({
             type: 'SignIn', payload: res.data
           });
