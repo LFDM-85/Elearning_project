@@ -32,8 +32,8 @@ export class AuthService {
 
   public async getRefreshToken(user: Users) {
     const userDataToUpdate = {
-      refreshToken: randomToken.generate(16),
-      refreshTokenExp: moment().day(1).format('DD/MM/YYYY'),
+      refreshToken: randomToken.generate(24),
+      refreshTokenExp: moment().add(2, 'day').format('DD/MM/YYYY'),
     };
     console.log(user);
     return { user, userDataToUpdate };

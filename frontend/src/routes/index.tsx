@@ -3,9 +3,6 @@ import { LandingPage } from '../pages/LandingPage/LandingPage';
 import React, {Suspense, lazy} from 'react';
 import { IState, IAction, ContextType} from '../shared/interfaces/interfaces';
 
-
-
-
 const initialState = {
   isAuthenticated: false,
   user: null,
@@ -42,8 +39,6 @@ export const AppRoutes = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const MyPage = lazy(() => import('../pages/MyPage/MyPage').then(({MyPage}) => ({ default: MyPage})));
   const SignPage = lazy(() => import ('../pages/SignPage/SignPage').then(({SignPage}) => ({ default: SignPage})));
-
-
 
 
   return (

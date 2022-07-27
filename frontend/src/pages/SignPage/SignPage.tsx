@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext} from '../../routes';
 
 
-
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
@@ -25,10 +24,8 @@ export function SignPage(): JSX.Element {
     });
   };
 
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-
 
     const data = new FormData(event.currentTarget);
 
@@ -36,40 +33,37 @@ export function SignPage(): JSX.Element {
 
     const inputs = {name: data.get('name'), email: data.get('email'), password: data.get('password')};
 
-    const URL = 'http://localhost:5000/auth/';
 
-    const signRoute: string = signIn ? URL + 'signin' : URL + 'signup';
+    const signRoute: string = signIn ? 'auth/signin' : 'auth/signup';
 
     if (signIn) {
-      axios
-        .post(signRoute, inputs)
+      await axios
+        .post(signRoute, inputs, {withCredentials: true})
         .then((res) => {
-
-
+          console.log(res.data);
           dispatch({
             type: 'SignIn', payload: res.data
           });
+          navigate('/my', {replace: true});
           console.log('User logged In');
-          navigate('/my', { replace: true });
-
-          return;
-
+          return axios.defaults.headers.common['Authorization'] = `Bearer ${res.data['token']}`;
         })
         .catch(function (error) {
           alert('User not found!');
           console.log(error.message);
         });
+
     }
 
+    
+
     if (!signIn) {
-      axios
+      await axios
         .post(signRoute, {...inputs, role : PROFESSOR_ROLE })
         .then((res) => {
-          console.log(res);
-          navigate('/', { replace: true });
-
           alert('User was created! Please Sign In');
           console.log('User created');
+          navigate('/sign', {replace: true});
 
           return;
         })

@@ -18,6 +18,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {AuthContext} from '../../../routes';
+import axios from 'axios';
 
 
 export const SideBar: React.FC<any> = (props) => {
@@ -26,9 +27,13 @@ export const SideBar: React.FC<any> = (props) => {
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
   const { dispatch }: any = React.useContext(AuthContext);
 
-  const signOutHandler = () => {
-    alert('User logged Out');
-    console.log('User logged Out');
+  const signOutHandler = async () => {
+    
+    await axios.post('/auth/signout', {}, {withCredentials: true}).then(res =>{
+      alert('User logged Out');
+      console.log('User logged Out');
+    });
+    
     dispatch({
       type: 'SignOut'
     });

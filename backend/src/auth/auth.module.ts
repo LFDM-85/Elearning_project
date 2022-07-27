@@ -7,7 +7,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './constants';
-import { RefreshTokenStrategy } from "./refresh-token.strategy";
+import { RefreshTokenStrategy } from './refresh-token.strategy';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { RefreshTokenStrategy } from "./refresh-token.strategy";
     }),
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '2min' },
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, RefreshTokenStrategy],
