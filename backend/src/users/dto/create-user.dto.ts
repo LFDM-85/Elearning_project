@@ -13,10 +13,4 @@ export class CreateUserDto {
   @IsArray()
   role: string[];
 
-  @IsString()
-  refreshToken: string;
-
-  @IsString()
-  refreshTokenExp: string;
-
 }
