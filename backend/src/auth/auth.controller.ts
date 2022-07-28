@@ -31,15 +31,15 @@ export class AuthController {
 
     const token = await this.jwtService.signAsync({ id: user.id });
 
-    // res.cookie('auth-cookie', jwt, { httpOnly: true });
+    res.cookie('auth-cookie', token, { httpOnly: true });
 
-    const refreshToken = await this.jwtService.signAsync({ id: user.id });
-    // const refreshToken = await this.authService.getRefreshToken(req.user);
+    // const refreshToken = await this.jwtService.signAsync({ id: user.id });
+    const refreshToken = await this.authService.getRefreshToken(req.user);
 
-    // res.cookie('refresh-cookie', refreshToken, { httpOnly: true });
+    res.cookie('refresh-cookie', refreshToken, { httpOnly: true });
 
-    // req.user = { ...req.user, ...refreshToken.userDataToUpdate, token };
-    req.user = {...req.user, refreshToken, token};
+    req.user = { ...req.user, ...refreshToken.userDataToUpdate, token };
+    // req.user = {...req.user, refreshToken, token};
     console.log(req.user);
     return this.authService.signin(req.user);
   }

@@ -29,8 +29,6 @@ export class UsersController {
       body.password,
       body.name,
       body.role,
-      body.refreshToken,
-      body.refreshTokenExp,
     );
   }
 

@@ -14,14 +14,7 @@ export class UsersService {
   constructor(@InjectModel('Users') private usersModel: Model<Users>) {}
 
   // creates a user entity instance
-  async create(
-    email: string,
-    password: string,
-    name: string,
-    role: string[],
-    refreshToken: string,
-    refreshTokenExp: string,
-  ) {
+  async create(email: string, password: string, name: string, role: string[]) {
     const users = await this.usersModel.find({ email });
     if (users.length) throw new BadRequestException('Email in use');
 
@@ -33,8 +26,6 @@ export class UsersService {
       password,
       name,
       role,
-      refreshToken,
-      refreshTokenExp,
     });
     return user.save(); // saves the entity in MongoDB
   }

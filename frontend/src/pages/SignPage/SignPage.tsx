@@ -41,12 +41,14 @@ export function SignPage(): JSX.Element {
         .post(signRoute, inputs, {withCredentials: true})
         .then((res) => {
           console.log(res.data);
+          const token = res.data['token'];
+          const refreshtoken = res.data['refreshToken'];
           dispatch({
             type: 'SignIn', payload: res.data
           });
           navigate('/my', {replace: true});
           console.log('User logged In');
-          return axios.defaults.headers.common['Authorization'] = `Bearer ${res.data['token']}`;
+          return;
         })
         .catch(function (error) {
           alert('User not found!');
