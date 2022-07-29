@@ -2,9 +2,16 @@ import { Button, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import HeroImage from '../../assets/Work.png';
+import {useContext} from 'react';
+import AuthContext from '../../shared/store/auth-context';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
+
+  if(authCtx.isSignedIn) {
+    navigate('/my', {replace: true});
+  }
 
   const clickHandler = () => {
     navigate('/sign');

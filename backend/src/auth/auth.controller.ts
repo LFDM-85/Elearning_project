@@ -31,12 +31,24 @@ export class AuthController {
 
     const token = await this.jwtService.signAsync({ id: user.id });
 
-    res.cookie('auth-cookie', token, { httpOnly: true });
+    res.cookie('auth-cookie', token, {
+      httpOnly: true,
+      sameSite: 'none',
+      maxAge: 15 * 60 * 1000,
+    });
 
     // const refreshToken = await this.jwtService.signAsync({ id: user.id });
     const refreshToken = await this.authService.getRefreshToken(req.user);
 
-    res.cookie('refresh-cookie', refreshToken, { httpOnly: true });
+    res.cookie('refresh-cookie', refreshToken, {
+      httpOnly: true,
+      sameSite: 'none',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    // res.cookie('auth', [token, refreshToken.userDataToUpdate], {
+    //   httpOnly: true,
+    // });
 
     req.user = { ...req.user, ...refreshToken.userDataToUpdate, token };
     // req.user = {...req.user, refreshToken, token};
@@ -61,23 +73,4 @@ export class AuthController {
       throw new UnauthorizedException();
     }
   }
-
-  // @Get('auth/refresh')
-  // @UseGuards(RefreshAuthGuard)
-  // async regenerateTokens(
-  //   @Request() req: any,
-  //   @Res({ passthrough: true }) res: Response,
-  // ) {
-  //   const token = await this.authService.signin(req.user);
-  //   const refreshToken = await this.authService.getRefreshToken(req.user);
-  //   const secretData = {
-  //     token,
-  //     refreshToken,
-  //   };
-  //
-  //   res.cookie('auth-cookie', secretData, { httpOnly: true });
-  //   req.user = { ...req.user, ...refreshToken.userDataToUpdate };
-  //   console.log(req.user);
-  //   return { msg: 'success' };
-  // }
 }

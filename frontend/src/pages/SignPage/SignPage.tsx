@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {Suspense, useContext, useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {Route, useNavigate} from 'react-router-dom';
 import AuthContext from '../../shared/store/auth-context';
 import {setRefreshToken, setToken} from '../../shared/features/TokenManagement';
 
@@ -18,54 +18,72 @@ export function SignPage(): JSX.Element {
   const [signIn, setSignIn] = useState(true);
   const authCtx = useContext(AuthContext);
 
+  if(authCtx.isSignedIn) {
+    navigate('/my', {replace: true});
+  }  
+
   const signUpToggleHandler = () => {
     setSignIn((prevState) => {
       return !prevState;
     });
   };
 
-  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-
-    const PROFESSOR_ROLE = ['professor']; // default role on signUp
-
     const inputs = {name: data.get('name'), email: data.get('email'), password: data.get('password')};
 
+    const PROFESSOR_ROLE = ['professor']; // default role on signUp
 
     const signRoute: string = signIn ? 'auth/signin' : 'auth/signup';
 
     if (signIn) {
-      await axios
-        .post(signRoute, inputs, {withCredentials: true})
+      axios
+        .post(signRoute, inputs, {
+          headers: {'Content-Type': 'application/json'},
+          withCredentials: true
+        })
         .then((res) => {
-          console.log(res.data);
-          authCtx.signin(res.data.user.token);
-          setToken(res.data.user.token);
-          setRefreshToken(res.data.user.refreshToken);
-          navigate('/my', {replace: true});
-          console.log('User logged In');
-          return;
+          if(res.status === 201) {
+            const accessToken = res?.data?.user.token;
+            const refreshToken = res?.data?.user.refreshToken;
+            const roles = res?.data?.user.role;
+
+            authCtx.signin(accessToken);
+            authCtx.isSignedIn = true;
+            setToken(accessToken);
+            setRefreshToken(refreshToken);
+
+            console.log('User logged In');
+            navigate('/my', {replace: true});
+          }
         })
         .catch(function (error) {
           alert('User not found!');
           console.log(error.message);
+          authCtx.isSignedIn = false;
+
         });
 
     }
     if (!signIn) {
-      await axios
+      axios
         .post(signRoute, {...inputs, role : PROFESSOR_ROLE })
         .then((res) => {
-          alert('User was created! Please Sign In');
-          console.log('User created');
-          navigate('/sign', {replace: true});
-
-          return;
+          if(res.status === 201) {
+            alert('User was created! Please Sign In');
+            console.log('User created');
+            navigate('/sign', {replace: true});
+          }
+          if(res.status === 400) {
+            alert('User already exists!');
+            navigate('/sign', {replace: true});
+            return;
+          }
         })
         .catch(function (error) {
-          alert('User already exists!');
+          
           console.log(error.message);
         });
 

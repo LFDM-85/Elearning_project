@@ -18,6 +18,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {cleanCookies} from 'universal-cookie/es6/utils';
 
 
 export const SideBar: React.FC<any> = (props) => {
@@ -31,6 +32,7 @@ export const SideBar: React.FC<any> = (props) => {
       alert('User logged Out');
       console.log('User logged Out');
       sessionStorage.clear();
+      cleanCookies();
       navigate('/', { replace: true });
     });
   };

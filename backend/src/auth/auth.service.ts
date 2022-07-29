@@ -40,7 +40,6 @@ export class AuthService {
   }
 
   async signin(user: Users) {
-
     return {
       user,
     };

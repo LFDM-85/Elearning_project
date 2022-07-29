@@ -14,12 +14,12 @@ export const AppRoutes = () => {
   return (
 
     <Routes>
-      {!authCtx.isSignedIn && <Route path="/" element={<LandingPage/>}/>}
-      {!authCtx.isSignedIn && <Route path="/sign" element={
+      <Route path="/" element={<LandingPage/>}/>
+      <Route path="/sign" element={
         <Suspense fallback={<div>Loading...</div>}>
           <SignPage/>
         </Suspense>
-      }/>}
+      }/>
       {authCtx.isSignedIn  && <Route path='/my' element={<Suspense fallback={<div>Loading...</div>}>
         <MyPage currUser='User'/>
       </Suspense>}/>}
