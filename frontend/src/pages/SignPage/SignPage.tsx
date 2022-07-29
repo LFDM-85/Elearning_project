@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -10,11 +10,13 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import AuthContext from '../../shared/store/auth-context';
+import {setRefreshToken, setToken} from '../../shared/features/TokenManagement';
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
+  const authCtx = useContext(AuthContext);
 
   const signUpToggleHandler = () => {
     setSignIn((prevState) => {
@@ -39,10 +41,10 @@ export function SignPage(): JSX.Element {
         .post(signRoute, inputs, {withCredentials: true})
         .then((res) => {
           console.log(res.data);
-          sessionStorage.setItem('token', res.data.user.token);
-          // const token = res.data['token'];
-          // const refreshtoken = res.data['refreshToken'];
-
+          authCtx.signin(res.data.user.token);
+          setToken(res.data.user.token);
+          setRefreshToken(res.data.user.refreshToken);
+          
           navigate('/my', {replace: true});
           console.log('User logged In');
           return;
@@ -53,9 +55,6 @@ export function SignPage(): JSX.Element {
         });
 
     }
-
-    
-
     if (!signIn) {
       await axios
         .post(signRoute, {...inputs, role : PROFESSOR_ROLE })
