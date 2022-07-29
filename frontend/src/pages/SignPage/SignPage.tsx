@@ -10,13 +10,11 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext} from '../../routes';
 
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
-  const { dispatch }: any = React.useContext(AuthContext);
 
   const signUpToggleHandler = () => {
     setSignIn((prevState) => {
@@ -41,11 +39,10 @@ export function SignPage(): JSX.Element {
         .post(signRoute, inputs, {withCredentials: true})
         .then((res) => {
           console.log(res.data);
-          const token = res.data['token'];
-          const refreshtoken = res.data['refreshToken'];
-          dispatch({
-            type: 'SignIn', payload: res.data
-          });
+          sessionStorage.setItem('token', res.data.user.token);
+          // const token = res.data['token'];
+          // const refreshtoken = res.data['refreshToken'];
+
           navigate('/my', {replace: true});
           console.log('User logged In');
           return;
