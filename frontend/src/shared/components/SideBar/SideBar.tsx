@@ -30,10 +30,9 @@ export const SideBar: React.FC<any> = (props) => {
     await axios.post('/auth/signout', {}, {withCredentials: true}).then(res =>{
       alert('User logged Out');
       console.log('User logged Out');
+      sessionStorage.clear();
+      navigate('/', { replace: true });
     });
-
-    navigate('/', { replace: true });
-
   };
   return (
     <>

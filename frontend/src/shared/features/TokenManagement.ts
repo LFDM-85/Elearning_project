@@ -13,3 +13,4 @@ export function getRefreshToken() {
 export function setRefreshToken(refreshToken: string) {
   return sessionStorage.setItem('refreshToken', refreshToken);
 }
+

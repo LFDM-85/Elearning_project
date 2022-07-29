@@ -44,7 +44,6 @@ export function SignPage(): JSX.Element {
           authCtx.signin(res.data.user.token);
           setToken(res.data.user.token);
           setRefreshToken(res.data.user.refreshToken);
-          
           navigate('/my', {replace: true});
           console.log('User logged In');
           return;
