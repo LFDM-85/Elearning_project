@@ -1,19 +1,13 @@
 import axios from 'axios';
+const BASE_URL = 'http://localhost:5000/';
 
 export default axios.create({
-  baseURL: 'http://localhost:5000/'
+  baseURL: BASE_URL
 });
 
-// axios.defaults.baseURL = ' http://localhost:5000/';
+export const axiosPrivate = axios.create({
+  baseURL: BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true
+});
 
-// axios.interceptors.response.use(res => res, async error => {
-//   if(error.response.status === 401) {
-//     const response = await axios.post('/auth/user', {}, {withCredentials: true});
-//     if(response.status === 200) {
-//       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.user['token']}`;
-//
-//       return axios(error.config);
-//     }
-//   }
-//   return error;
-// });
