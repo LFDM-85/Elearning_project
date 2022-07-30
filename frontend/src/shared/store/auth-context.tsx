@@ -14,6 +14,7 @@ const AuthContext = React.createContext({
   user: initialUser,
   signin: (token: string, user: any) => {/**/},
   signout: () => {/**/},
+
 });
 
 

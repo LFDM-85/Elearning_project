@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = ' http://localhost:5000/';
+export default axios.create({
+  baseURL: 'http://localhost:5000/'
+});
+
+// axios.defaults.baseURL = ' http://localhost:5000/';
 
 // axios.interceptors.response.use(res => res, async error => {
 //   if(error.response.status === 401) {
