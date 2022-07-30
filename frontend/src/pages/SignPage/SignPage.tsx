@@ -9,14 +9,16 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from 'axios';
-import {Route, useNavigate} from 'react-router-dom';
-import AuthContext from '../../shared/store/auth-context';
+import { useNavigate} from 'react-router-dom';
 import {setRefreshToken, setToken} from '../../shared/features/TokenManagement';
+import useAuth from '../../shared/hooks/useAuth';
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
+
+
   const [signIn, setSignIn] = useState(true);
-  const authCtx = useContext(AuthContext);
+  const authCtx = useAuth();
 
   if(authCtx.isSignedIn) {
     navigate('/my', {replace: true});
@@ -45,19 +47,25 @@ export function SignPage(): JSX.Element {
           withCredentials: true
         })
         .then((res) => {
-          if(res.status === 201) {
-            const accessToken = res?.data?.user.token;
-            const refreshToken = res?.data?.user.refreshToken;
-            const roles = res?.data?.user.role;
+         
+          const accessToken = res.data.user.token;
+          const refreshToken = res.data.user.refreshToken;
+          const roles = res.data?.user.role;
+          const user = res.data.user;
 
-            authCtx.signin(accessToken);
-            authCtx.isSignedIn = true;
-            setToken(accessToken);
-            setRefreshToken(refreshToken);
+          console.log({...user});
 
-            console.log('User logged In');
-            navigate('/my', {replace: true});
-          }
+          authCtx.signin(accessToken, user);
+          authCtx.isSignedIn = true;
+          setToken(accessToken);
+          setRefreshToken(refreshToken);
+
+          console.log('info', [roles,accessToken, refreshToken ]);
+
+
+          console.log('User logged In');
+          navigate('/my', {replace: true});
+          
         })
         .catch(function (error) {
           alert('User not found!');

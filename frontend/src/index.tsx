@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/system';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { App } from './App';
 import { Theme } from './shared/themes';
 import './interceptors/axios';
@@ -11,10 +11,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <ThemeProvider theme={Theme}>
-    <AuthContextProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AuthContextProvider>
+    <BrowserRouter>
+      <AuthContextProvider>
+        <Routes>
+          <Route path='/*' element={<App/>}/>
+        </Routes>
+      </AuthContextProvider>
+    </BrowserRouter>
   </ThemeProvider>
 );

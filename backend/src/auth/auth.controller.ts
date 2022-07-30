@@ -43,7 +43,7 @@ export class AuthController {
     res.cookie('refresh-cookie', refreshToken, {
       httpOnly: true,
       sameSite: 'none',
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 48 * 60 * 60 * 1000,
     });
 
     // res.cookie('auth', [token, refreshToken.userDataToUpdate], {
@@ -51,7 +51,7 @@ export class AuthController {
     // });
 
     req.user = { ...req.user, ...refreshToken.userDataToUpdate, token };
-    // req.user = {...req.user, refreshToken, token};
+    // req.user = { ...req.user, refreshToken, token };
     console.log(req.user);
     return this.authService.signin(req.user);
   }

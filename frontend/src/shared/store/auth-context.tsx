@@ -1,27 +1,47 @@
 import React, {useState} from 'react';
 
+
+const initialUser = {
+  email:'',
+  id:'',
+  name:'',
+  role: []
+};
+
 const AuthContext = React.createContext({
   token: '',
   isSignedIn: false,
-  signin: (token: string) => {/**/},
+  user: initialUser,
+  signin: (token: string, user: any) => {/**/},
   signout: () => {/**/},
 });
 
+
+
 export const AuthContextProvider = (props: any) => {
   const [token, setToken] = useState('');
-    
+  const [user, setUser] = useState(initialUser);
   const userIsSignedIn = !!token;
 
-  const signinHandler = (token: string) => {
+  const signinHandler = (token: string, user: any) => {
     setToken(token);
+    setUser({
+      email: user.email,
+      id: user.id,
+      name: user.name,
+      role: user.role,
+    });
   };
 
   const signoutHandler = () => {
     setToken('');
+    setUser(initialUser);
   };
+
 
   const contextValue = {
     token: token,
+    user: user,
     isSignedIn: userIsSignedIn,
     signin: signinHandler,
     signout: signoutHandler,
