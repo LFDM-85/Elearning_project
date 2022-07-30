@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { LandingPage } from '../pages/LandingPage/LandingPage';
 import  LayoutRoutes from '../shared/components/LayoutRotes/LayoutRoutes';
+import Unauthorized from '../pages/Unauthorized/Unauthorized';
 import React, {Suspense, lazy} from 'react';
 import RequireAuth from '../shared/features/RequireAuth';
 
@@ -23,6 +24,7 @@ export const AppRoutes = () => {
             <SignPage/>
           </Suspense>
         }/>
+        <Route path='/unauthorized' element={<Unauthorized/>} />
 
         {/*  private routes */}
         {/*Separate Protected Nested Routes with every role. For now Admin, Student and Professor are allowed */}
