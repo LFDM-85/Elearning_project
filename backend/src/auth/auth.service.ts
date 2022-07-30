@@ -35,7 +35,6 @@ export class AuthService {
       refreshToken: randomToken.generate(256),
       refreshTokenExp: moment().add(2, 'day').format('DD/MM/YYYY'),
     };
-    console.log(user);
     return { user, userDataToUpdate };
   }
 

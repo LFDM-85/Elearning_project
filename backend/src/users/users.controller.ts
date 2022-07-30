@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-// import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Users } from './entities/user.entity';
@@ -55,16 +54,4 @@ export class UsersController {
   findUser(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
-
-  // @Patch('/:id')
-  // @UseGuards(JwtAuthGuard)
-  // updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
-  //   return this.usersService.update(+id, body);
-  // }
-  //
-  // @Delete('/:id')
-  // @UseGuards(JwtAuthGuard)
-  // removeUser(@Param('id') id: string) {
-  //   return this.usersService.remove(+id);
-  // }
 }

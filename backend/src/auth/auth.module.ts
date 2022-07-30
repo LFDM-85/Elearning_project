@@ -17,7 +17,7 @@ import { RefreshTokenStrategy } from './refresh-token.strategy';
     }),
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '2min' },
+      signOptions: { expiresIn: '10min' },
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, RefreshTokenStrategy],

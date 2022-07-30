@@ -46,13 +46,13 @@ export class AuthController {
       maxAge: 48 * 60 * 60 * 1000,
     });
 
-    res.cookie('auth', [token, refreshToken.userDataToUpdate], {
-      httpOnly: true,
-    });
+    // res.cookie('auth', [token, refreshToken.userDataToUpdate], {
+    //   httpOnly: true,
+    // });
 
-    req.user = { ...req.user, ...refreshToken.userDataToUpdate, token };
-    // req.user = { ...req.user, refreshToken, token };
-    console.log(req.user);
+    // req.user = { ...req.user, ...refreshToken.userDataToUpdate, token };
+    req.user = { ...req.user, token };
+    // console.log(req.user);
     return this.authService.signin(req.user);
   }
 

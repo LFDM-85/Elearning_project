@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  // NotFoundException,
-} from '@nestjs/common';
-// import { UpdateUserDto } from './dto/update-user.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Users } from './entities/user.entity';
@@ -44,17 +39,4 @@ export class UsersService {
   async findEmail(email: string) {
     return await this.usersModel.findOne({ email }).exec();
   }
-
-  // async update(id: number, Users: UpdateUserDto) {
-  //   const user = await this.findOne(id);
-  //   if (!user) throw new NotFoundException('User not found!');
-  //   Object.assign(user, Users);
-  //   return user.save();
-  // }
-  //
-  // async remove(id: number) {
-  //   const user = await this.findOne(id);
-  //   if (!user) throw new NotFoundException('User not found!');
-  //   return user.remove();
-  // }
 }

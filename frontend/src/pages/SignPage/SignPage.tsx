@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -19,10 +19,12 @@ export function SignPage(): JSX.Element {
 
   const [signIn, setSignIn] = useState(true);
   const authCtx = useAuth();
-
-  if(authCtx.isSignedIn) {
-    navigate('/my', {replace: true});
-  }  
+  
+  useEffect(() => {
+    if(authCtx.isSignedIn && authCtx.token) {
+      navigate('/my', {replace: true});
+    }
+  }, []);
 
   const signUpToggleHandler = () => {
     setSignIn((prevState) => {
@@ -40,41 +42,6 @@ export function SignPage(): JSX.Element {
 
     const signRoute: string = signIn ? 'auth/signin' : 'auth/signup';
 
-    if (signIn) {
-      axios
-        .post(signRoute, inputs, {
-          headers: {'Content-Type': 'application/json'},
-          withCredentials: true
-        })
-        .then((res) => {
-         
-          const accessToken = res.data.user.token;
-          const refreshToken = res.data.user.refreshToken;
-          const roles = res.data?.user.role;
-          const user = res.data.user;
-
-          console.log({...user});
-
-          authCtx.signin(accessToken, user);
-          authCtx.isSignedIn = true;
-          setToken(accessToken);
-          setRefreshToken(refreshToken);
-
-          console.log('info', [roles,accessToken, refreshToken ]);
-
-
-          console.log('User logged In');
-          navigate('/my', {replace: true});
-          
-        })
-        .catch(function (error) {
-          alert('User not found!');
-          console.log(error.message);
-          authCtx.isSignedIn = false;
-
-        });
-
-    }
     if (!signIn) {
       axios
         .post(signRoute, {...inputs, role : PROFESSOR_ROLE })
@@ -91,12 +58,40 @@ export function SignPage(): JSX.Element {
           }
         })
         .catch(function (error) {
-          
+
           console.log(error.message);
         });
 
     }
+    
+    if (signIn) {
+      axios
+        .post(signRoute, inputs, {
+          headers: {'Content-Type': 'application/json'},
+          withCredentials: true
+        })
+        .then((res) => {
+         
+          const accessToken = res.data.user.token;
+          const refreshToken = res.data.user.refreshToken;
+          const user = res.data.user;
 
+          authCtx.signin(accessToken, user);
+          authCtx.isSignedIn = true;
+          setToken(accessToken);
+          setRefreshToken(refreshToken);
+
+          console.log('User logged In');
+          navigate('/my', {replace: true});
+          
+        })
+        .catch(function (error) {
+          alert('User not found!');
+          console.log(error.message);
+          authCtx.isSignedIn = false;
+        });
+
+    }
   };
 
   return (

@@ -19,9 +19,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {cleanCookies} from 'universal-cookie/es6/utils';
+import useAuth from '../../hooks/useAuth';
+
 
 
 export const SideBar: React.FC<any> = (props) => {
+  const authCtx = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
@@ -33,6 +36,7 @@ export const SideBar: React.FC<any> = (props) => {
       console.log('User logged Out');
       sessionStorage.clear();
       cleanCookies();
+      authCtx.isSignedIn = false;
       navigate('/', { replace: true });
     });
   };
