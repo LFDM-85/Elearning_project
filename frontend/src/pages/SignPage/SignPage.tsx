@@ -76,15 +76,14 @@ export function SignPage(): JSX.Element {
             alert('User was created! Please Sign In');
             console.log('User created');
             navigate('/sign', { replace: true });
-          }
-          if (res.status === 400) {
-            alert('User already exists!');
-            navigate('/sign', { replace: true });
             return;
           }
         })
         .catch(function (error) {
+          alert('Email already exists!');
+          navigate('/sign', { replace: true });
           console.log(error.message);
+          return;
         });
     }
 
