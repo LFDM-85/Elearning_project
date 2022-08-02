@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -40,9 +40,6 @@ export function SignPage(): JSX.Element {
     });
   };
 
-  // const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-
   const submitHandler = ({
     name,
     email,
@@ -52,17 +49,11 @@ export function SignPage(): JSX.Element {
     email: string;
     password: string;
   }) => {
-    // const data = new FormData(event.currentTarget);
     const inputs = {
       name,
       email,
       password,
     };
-    // const inputs = {
-    //   name: data.get('name'),
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // };
 
     const PROFESSOR_ROLE = ['professor']; // default role on signUp
 
@@ -156,7 +147,6 @@ export function SignPage(): JSX.Element {
                 fullWidth
                 id="name"
                 label="Your Name"
-                // name="name"
                 {...register('name', { required: 'Name is required!' })}
                 autoComplete="name"
                 autoFocus
@@ -186,7 +176,6 @@ export function SignPage(): JSX.Element {
               margin="normal"
               required
               fullWidth
-              // name="password"
               {...register('password', {
                 required: 'Password is required!',
                 minLength: {
