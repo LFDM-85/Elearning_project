@@ -40,15 +40,29 @@ export function SignPage(): JSX.Element {
     });
   };
 
-  const submitHandler = (event: any) => {
-    event.preventDefault();
+  // const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
 
-    const data = new FormData(event.currentTarget);
+  const submitHandler = ({
+    name,
+    email,
+    password,
+  }: {
+    name: string;
+    email: string;
+    password: string;
+  }) => {
+    // const data = new FormData(event.currentTarget);
     const inputs = {
-      name: data.get('name'),
-      email: data.get('email'),
-      password: data.get('password'),
+      name,
+      email,
+      password,
     };
+    // const inputs = {
+    //   name: data.get('name'),
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // };
 
     const PROFESSOR_ROLE = ['professor']; // default role on signUp
 
@@ -143,6 +157,7 @@ export function SignPage(): JSX.Element {
                 fullWidth
                 id="name"
                 label="Your Name"
+                // name="name"
                 {...register('name', { required: 'Name is required!' })}
                 autoComplete="name"
                 autoFocus
@@ -172,6 +187,7 @@ export function SignPage(): JSX.Element {
               margin="normal"
               required
               fullWidth
+              // name="password"
               {...register('password', {
                 required: 'Password is required!',
                 minLength: {
