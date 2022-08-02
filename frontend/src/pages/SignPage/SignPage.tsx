@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,20 +9,28 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from '../../interceptors/axios';
-import { useNavigate} from 'react-router-dom';
-import {setRefreshToken, setToken} from '../../shared/features/TokenManagement';
+import { useNavigate } from 'react-router-dom';
+import {
+  setRefreshToken,
+  setToken,
+} from '../../shared/features/TokenManagement';
 import useAuth from '../../shared/hooks/useAuth';
+import { useForm } from 'react-hook-form';
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues: { name: '', email: '', password: '' } });
 
   const [signIn, setSignIn] = useState(true);
   const authCtx = useAuth();
-  
+
   useEffect(() => {
-    if(authCtx.isSignedIn && authCtx.token) {
-      navigate('/my', {replace: true});
+    if (authCtx.isSignedIn && authCtx.token) {
+      navigate('/my', { replace: true });
     }
   }, []);
 
@@ -32,11 +40,15 @@ export function SignPage(): JSX.Element {
     });
   };
 
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (event: any) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    const inputs = {name: data.get('name'), email: data.get('email'), password: data.get('password')};
+    const inputs = {
+      name: data.get('name'),
+      email: data.get('email'),
+      password: data.get('password'),
+    };
 
     const PROFESSOR_ROLE = ['professor']; // default role on signUp
 
@@ -44,34 +56,31 @@ export function SignPage(): JSX.Element {
 
     if (!signIn) {
       axios
-        .post(signRoute, {...inputs, role : PROFESSOR_ROLE })
+        .post(signRoute, { ...inputs, role: PROFESSOR_ROLE })
         .then((res) => {
-          if(res.status === 201) {
+          if (res.status === 201) {
             alert('User was created! Please Sign In');
             console.log('User created');
-            navigate('/sign', {replace: true});
+            navigate('/sign', { replace: true });
           }
-          if(res.status === 400) {
+          if (res.status === 400) {
             alert('User already exists!');
-            navigate('/sign', {replace: true});
+            navigate('/sign', { replace: true });
             return;
           }
         })
         .catch(function (error) {
-
           console.log(error.message);
         });
-
     }
-    
+
     if (signIn) {
       axios
         .post(signRoute, inputs, {
-          headers: {'Content-Type': 'application/json'},
-          withCredentials: true
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
         })
         .then((res) => {
-         
           const accessToken = res.data.user.token;
           const refreshToken = res.data.user.refreshToken;
           const user = res.data.user;
@@ -82,15 +91,13 @@ export function SignPage(): JSX.Element {
           setRefreshToken(refreshToken);
 
           console.log('User logged In');
-          navigate('/my', {replace: true});
-          
+          navigate('/my', { replace: true });
         })
         .catch(function (error) {
           alert('User not found!');
           console.log(error.message);
           authCtx.isSignedIn = false;
         });
-
     }
   };
 
@@ -126,7 +133,7 @@ export function SignPage(): JSX.Element {
           <Box
             component="form"
             noValidate
-            onSubmit={submitHandler}
+            onSubmit={handleSubmit(submitHandler)}
             sx={{ mt: 1 }}
           >
             {!signIn && (
@@ -136,9 +143,11 @@ export function SignPage(): JSX.Element {
                 fullWidth
                 id="name"
                 label="Your Name"
-                name="name"
+                {...register('name', { required: 'Name is required!' })}
                 autoComplete="name"
                 autoFocus
+                error={!!errors?.name}
+                helperText={errors?.name ? errors.name.message : null}
               />
             )}
             <TextField
@@ -147,19 +156,35 @@ export function SignPage(): JSX.Element {
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
+              {...register('email', {
+                required: 'Email is required!',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Invalid email address',
+                },
+              })}
               autoComplete="email"
               autoFocus
+              error={!!errors?.email}
+              helperText={errors?.email ? errors.email.message : null}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
+              {...register('password', {
+                required: 'Password is required!',
+                minLength: {
+                  value: 8,
+                  message: 'Invalid password, must have at least 8 characters',
+                },
+              })}
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+              error={!!errors?.password}
+              helperText={errors?.password ? errors.password.message : null}
             />
             <Button
               type="submit"
