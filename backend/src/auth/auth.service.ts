@@ -10,8 +10,7 @@ import * as moment from 'moment';
 export class AuthService {
   private user: Users;
   constructor(
-    private userService: UsersService,
-    private jwtService: JwtService,
+    private userService: UsersService, // private jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, password: string) {

@@ -2,23 +2,33 @@ import { Button, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import HeroImage from '../../assets/Work.png';
-import {useContext} from 'react';
+import { useContext, useEffect } from 'react';
 import AuthContext from '../../shared/store/auth-context';
+import { getToken } from '../../shared/features/TokenManagement';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
 
-  if(authCtx.isSignedIn) {
-    navigate('/my', {replace: true});
-  }
+  const readCookie = () => {
+    const userCookie = getToken();
+    if (userCookie) {
+      authCtx.isSignedIn = true;
+      navigate('/my', { replace: true });
+      return;
+    }
+  };
+
+  useEffect(() => {
+    readCookie();
+  }, []);
 
   const clickHandler = () => {
     navigate('/sign');
   };
 
   return (
-    <Grid container component="main"  sx={{ height: '100vh' }}>
+    <Grid container component="main" sx={{ height: '100vh' }}>
       <Grid
         container
         direction="column"
@@ -26,7 +36,12 @@ export const LandingPage = () => {
         alignItems="center"
         xl={5}
       >
-        <Grid container direction="column" justifyContent='center' alignItems='center'>
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
           <Typography ml={6} variant="h1" component="h1">
             E-le@rn School
           </Typography>

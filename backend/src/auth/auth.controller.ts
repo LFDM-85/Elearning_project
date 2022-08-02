@@ -31,11 +31,11 @@ export class AuthController {
 
     const token = await this.jwtService.signAsync({ id: user.id });
 
-    // res.cookie('auth-cookie', token, {
-    //   httpOnly: true,
-    //   sameSite: 'none',
-    //   maxAge: 15 * 60 * 1000,
-    // });
+    res.cookie('auth-cookie', token, {
+      httpOnly: true,
+      sameSite: 'none',
+      maxAge: 15 * 60 * 1000,
+    });
 
     // const refreshToken = await this.jwtService.signAsync({ id: user.id });
     const refreshToken = await this.authService.getRefreshToken(req.user);
@@ -50,8 +50,8 @@ export class AuthController {
     //   httpOnly: true,
     // });
 
-    // req.user = { ...req.user, ...refreshToken.userDataToUpdate, token };
-    req.user = { ...req.user, token };
+    req.user = { ...req.user, ...refreshToken.userDataToUpdate, token };
+    // req.user = { ...req.user, token };
     // console.log(req.user);
     return this.authService.signin(req.user);
   }

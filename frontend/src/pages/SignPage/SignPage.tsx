@@ -24,7 +24,6 @@ export function SignPage(): JSX.Element {
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: { name: '', email: '', password: '' } });
-
   const [signIn, setSignIn] = useState(true);
   const authCtx = useAuth();
 
@@ -88,6 +87,7 @@ export function SignPage(): JSX.Element {
           const accessToken = res.data.user.token;
           const refreshToken = res.data.user.refreshToken;
           const user = res.data.user;
+          console.log(res.data);
 
           authCtx.signin(accessToken, user);
           authCtx.isSignedIn = true;
