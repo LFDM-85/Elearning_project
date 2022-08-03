@@ -29,7 +29,8 @@ export class AuthController {
 
     if (!user) throw new BadRequestException('invalid credentials');
 
-    const token = await this.jwtService.signAsync({ id: user.id });
+    // const token = await this.jwtService.signAsync({ id: user.id });
+    const token = await this.authService.getJwtToken(req.user);
 
     res.cookie('auth-cookie', token, {
       httpOnly: true,

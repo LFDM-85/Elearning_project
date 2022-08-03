@@ -15,6 +15,4 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsArray()
   @IsOptional()
   role: string[];
-
-
 }

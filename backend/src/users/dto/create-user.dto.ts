@@ -12,5 +12,4 @@ export class CreateUserDto {
 
   @IsArray()
   role: string[];
-
 }

@@ -10,7 +10,8 @@ import * as moment from 'moment';
 export class AuthService {
   private user: Users;
   constructor(
-    private userService: UsersService, // private jwtService: JwtService,
+    private userService: UsersService,
+    private jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -29,11 +30,19 @@ export class AuthService {
     return null;
   }
 
+  public async getJwtToken(user: Users): Promise<string> {
+    const payload = {
+      ...user,
+    };
+    return this.jwtService.signAsync(payload);
+  }
+
   public async getRefreshToken(user: Users) {
     const userDataToUpdate = {
       refreshToken: randomToken.generate(256),
       refreshTokenExp: moment().add(2, 'day').format('DD/MM/YYYY'),
     };
+    //update DB
     return { user, userDataToUpdate };
   }
 
