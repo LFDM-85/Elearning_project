@@ -35,6 +35,7 @@ export class AuthController {
     res.cookie('auth-cookie', token, {
       httpOnly: true,
       sameSite: 'none',
+      secure: true,
       maxAge: 15 * 60 * 1000,
     });
 
@@ -44,6 +45,7 @@ export class AuthController {
     res.cookie('refresh-cookie', refreshToken, {
       httpOnly: true,
       sameSite: 'none',
+      secure: true,
       maxAge: 48 * 60 * 60 * 1000,
     });
 
