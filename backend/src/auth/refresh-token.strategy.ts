@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { AuthService } from "./auth.service";
+import { AuthService } from './auth.service';
 import { jwtConstants } from './constants';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
       secretOrKey: jwtConstants.secret,
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
-          const data = request?.cookies['auth'];
+          const data = request?.cookies['refresh-cookie'];
           if (!data) {
             return null;
           }
@@ -31,7 +31,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
     if (!payload) {
       throw new BadRequestException('invalid jwt token');
     }
-    const data = req?.cookies['auth'];
+    const data = req?.cookies['refresh-cookie'];
     if (!data?.refreshToken) {
       throw new BadRequestException('invalid refresh token');
     }

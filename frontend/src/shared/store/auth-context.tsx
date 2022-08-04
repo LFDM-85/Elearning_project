@@ -32,7 +32,7 @@ export const AuthContextProvider = (props: any) => {
   const userIsSignedIn = !!token;
 
   const signinHandler = (token: string, user: IUser) => {
-    setToken(token);
+    // setToken(token);
     setUser({
       email: user.email,
       id: user.id,

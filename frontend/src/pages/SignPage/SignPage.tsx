@@ -91,8 +91,8 @@ export function SignPage(): JSX.Element {
 
           authCtx.signin(accessToken, user);
           authCtx.isSignedIn = true;
-          setToken(accessToken);
-          setRefreshToken(refreshToken);
+          // setToken(accessToken);
+          // setRefreshToken(refreshToken);
 
           console.log('User logged In');
           navigate('/my', { replace: true });
