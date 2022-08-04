@@ -5,6 +5,7 @@ import { comparePasswords } from '../utils/bcrypt';
 import { Users } from '../users/entities/user.entity';
 import * as randomToken from 'rand-token';
 import * as moment from 'moment';
+import { TokenService } from 'src/token/token.service';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +13,7 @@ export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
+    private tokenService: TokenService,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -48,9 +50,14 @@ export class AuthService {
 
   async signin(user: Users) {
     const payload = { email: user.email, role: user.role, name: user.name };
+    const token = await this.jwtService.sign(payload);
+    await this.tokenService.saveToken(token, user.email);
+
+    console.log(token);
+
     return {
-      token: this.jwtService.sign(payload),
-      user,
+      token,
+      payload,
     };
   }
 }

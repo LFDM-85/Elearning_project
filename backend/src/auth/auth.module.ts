@@ -8,9 +8,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './constants';
 import { RefreshTokenStrategy } from './refresh-token.strategy';
+import { TokenModule } from '../token/token.module';
 
 @Module({
   imports: [
+    TokenModule,
     UsersModule,
     PassportModule.register({
       session: false,
