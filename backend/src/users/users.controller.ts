@@ -13,8 +13,8 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CurrentUser } from './decorators/current-user.decorator';
-import { Users } from './entities/user.entity';
+// import { CurrentUser } from './decorators/current-user.decorator';
+// import { Users } from './entities/user.entity';
 import { Response } from 'express';
 
 @Controller('auth')
@@ -37,11 +37,10 @@ export class UsersController {
     response.clearCookie('refresh-cookie');
   }
 
-  @Get('/whoami')
   @UseGuards(JwtAuthGuard)
-  whoami(@CurrentUser() user: Users) {
-    console.log('Current User', user);
-    return user;
+  @Get('/whoami')
+  async whoami(@Query('email') email: string) {
+    return this.usersService.whoami(email);
   }
 
   @Get('/')
