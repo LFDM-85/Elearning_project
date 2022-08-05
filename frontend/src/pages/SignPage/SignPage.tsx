@@ -14,6 +14,7 @@ import { setToken } from '../../shared/features/TokenManagement';
 import useAuth from '../../shared/hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { getToken } from '../../shared/features/TokenManagement';
+import { signup } from '../../shared/features/SignServices';
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ export function SignPage(): JSX.Element {
   };
   const signRoute: string = signIn ? 'auth/signin' : 'auth/signup';
 
-  const signToken = (token: string | null) => {
+  const signToken = async (token: string | null) => {
     return axios({
       url: 'auth/signToken',
       method: 'Post',
@@ -57,7 +58,7 @@ export function SignPage(): JSX.Element {
       });
   };
 
-  const submitHandler = ({
+  const submitHandler = async ({
     name,
     email,
     password,

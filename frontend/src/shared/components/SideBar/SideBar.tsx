@@ -17,9 +17,8 @@ import {
 import { Box } from '@mui/system';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { cleanCookies } from 'universal-cookie/es6/utils';
 import useAuth from '../../hooks/useAuth';
+import { signout } from '../../features/SignServices';
 
 export const SideBar: React.FC<any> = (props) => {
   const authCtx = useAuth();
@@ -28,15 +27,9 @@ export const SideBar: React.FC<any> = (props) => {
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
   const signOutHandler = async () => {
-    await axios
-      .post('/auth/signout', {}, { withCredentials: true })
-      .then((res) => {
-        alert('User logged Out');
-        console.log('User logged Out');
-        localStorage.clear();
-        authCtx.isSignedIn = false;
-        navigate('/', { replace: true });
-      });
+    await signout();
+    authCtx.isSignedIn = false;
+    navigate('/', { replace: true });
   };
   return (
     <>
