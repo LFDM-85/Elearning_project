@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './constants';
 import { RefreshTokenStrategy } from './refresh-token.strategy';
+import { TokenService } from '../token/token.service';
 import { TokenModule } from '../token/token.module';
 
 @Module({
@@ -22,7 +23,7 @@ import { TokenModule } from '../token/token.module';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy, RefreshTokenStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
   exports: [JwtModule, AuthService],
 })

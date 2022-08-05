@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { comparePasswords } from '../utils/bcrypt';
 import { Users } from '../users/entities/user.entity';
-import * as randomToken from 'rand-token';
-import * as moment from 'moment';
+
 import { TokenService } from 'src/token/token.service';
 
 @Injectable()
@@ -13,6 +12,7 @@ export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
+    @Inject(forwardRef(() => TokenService))
     private tokenService: TokenService,
   ) {}
 
@@ -30,22 +30,6 @@ export class AuthService {
     }
     console.log('User Validation failed!');
     return null;
-  }
-
-  public async getJwtToken(user: Users): Promise<string> {
-    const payload = {
-      ...user,
-    };
-    return this.jwtService.signAsync(payload);
-  }
-
-  public async getRefreshToken(user: Users) {
-    const userDataToUpdate = {
-      refreshToken: randomToken.generate(256),
-      refreshTokenExp: moment().add(2, 'day').format('DD/MM/YYYY'),
-    };
-    //update DB
-    return { user, userDataToUpdate };
   }
 
   async signin(user: Users) {
