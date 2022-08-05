@@ -1,4 +1,10 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { comparePasswords } from '../utils/bcrypt';
@@ -33,13 +39,27 @@ export class AuthService {
   }
 
   async signin(user: Users) {
-    const payload = { email: user.email, role: user.role, name: user.name };
-    const token = await this.jwtService.sign(payload);
+    // const user = { email: user.email, role: user.role, name: user.name };
+    const token = await this.jwtService.sign(user);
     await this.tokenService.saveToken(token, user.email);
 
     return {
       token,
-      // payload,
+      user,
     };
+  }
+
+  async signToken(token: string) {
+    const user = await this.tokenService.getUserByToken(token);
+    if (user) {
+      return this.signin(user.user);
+    } else {
+      return new HttpException(
+        {
+          errorMessage: 'Invalid token!',
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
   }
 }

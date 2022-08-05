@@ -18,10 +18,8 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {cleanCookies} from 'universal-cookie/es6/utils';
+import { cleanCookies } from 'universal-cookie/es6/utils';
 import useAuth from '../../hooks/useAuth';
-
-
 
 export const SideBar: React.FC<any> = (props) => {
   const authCtx = useAuth();
@@ -30,15 +28,15 @@ export const SideBar: React.FC<any> = (props) => {
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
   const signOutHandler = async () => {
-    
-    await axios.post('/auth/signout', {}, {withCredentials: true}).then(res =>{
-      alert('User logged Out');
-      console.log('User logged Out');
-      sessionStorage.clear();
-      cleanCookies();
-      authCtx.isSignedIn = false;
-      navigate('/', { replace: true });
-    });
+    await axios
+      .post('/auth/signout', {}, { withCredentials: true })
+      .then((res) => {
+        alert('User logged Out');
+        console.log('User logged Out');
+        localStorage.clear();
+        authCtx.isSignedIn = false;
+        navigate('/', { replace: true });
+      });
   };
   return (
     <>
@@ -50,7 +48,6 @@ export const SideBar: React.FC<any> = (props) => {
           flexDirection="column"
         >
           <Box
-
             width="100%"
             height={theme.spacing(20)}
             display="flex"
@@ -58,7 +55,6 @@ export const SideBar: React.FC<any> = (props) => {
             justifyContent="center"
             marginTop={theme.spacing(3)}
             marginBottom={theme.spacing(-3)}
-
           >
             <Avatar
               sx={{ height: theme.spacing(12), width: theme.spacing(12) }}

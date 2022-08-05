@@ -53,4 +53,15 @@ export class TokenService {
       );
     }
   }
+
+  async getUserByToken(token: string) {
+    const dbToken = await this.tokenModel.findOne({ hash: token });
+
+    if (dbToken) {
+      const user = await this.usersService.findEmail(dbToken.useremail);
+      return this.authService.signin(user);
+    } else {
+      return null;
+    }
+  }
 }

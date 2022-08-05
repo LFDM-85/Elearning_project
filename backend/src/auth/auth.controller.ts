@@ -6,6 +6,7 @@ import {
   Res,
   // Get,
   BadRequestException,
+  Body,
   // UnauthorizedException,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
@@ -29,52 +30,13 @@ export class AuthController {
 
     if (!user) throw new BadRequestException('invalid credentials');
 
-    // const token = await this.jwtService.signAsync({ id: user.id });
-    // const token = await this.authService.getJwtToken(req.user);
-
-    // res.cookie('auth-cookie', token, {
-    //   httpOnly: true,
-    //   sameSite: 'none',
-    //   secure: true,
-    //   maxAge: 15 * 60 * 1000,
-    // });
-
-    // const refreshToken = await this.jwtService.signAsync({ id: user.id });
-    // const refreshToken = await this.authService.getRefreshToken(req.user);
-
-    // res.cookie('refresh-cookie', refreshToken, {
-    //   httpOnly: true,
-    //   sameSite: 'none',
-    //   secure: true,
-    //   maxAge: 48 * 60 * 60 * 1000,
-    // });
-
-    // res.cookie('auth', [token, refreshToken.userDataToUpdate], {
-    //   httpOnly: true,
-    // });
-
-    // req.user = { ...req.user, ...refreshToken.userDataToUpdate, token };
-    // console.log(req.user);
-    // req.user = { ...req.user, token };
-
     return this.authService.signin(req.user);
   }
 
-  // @Get('auth/user')
-  // async user(@Request() req: Req) {
-  //   try {
-  //     const cookie = req.cookies['refresh-cookie'];
-  //     const data = await this.jwtService.verifyAsync(cookie);
+  @Post('auth/signToken')
+  async signToken(@Request() req, @Body() data) {
+    console.log(data);
 
-  //     if (!data) throw new UnauthorizedException();
-
-  //     const user = await this.userService.findOne({ id: data['id'] });
-
-  //     const { password, ...result } = user;
-
-  //     return result;
-  //   } catch (e) {
-  //     throw new UnauthorizedException();
-  //   }
-  // }
+    return this.authService.signToken(data.token);
+  }
 }

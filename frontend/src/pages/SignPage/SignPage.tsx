@@ -10,12 +10,10 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from '../../interceptors/axios';
 import { useNavigate } from 'react-router-dom';
-import {
-  setRefreshToken,
-  setToken,
-} from '../../shared/features/TokenManagement';
+import { setToken } from '../../shared/features/TokenManagement';
 import useAuth from '../../shared/hooks/useAuth';
 import { useForm } from 'react-hook-form';
+import { getToken } from '../../shared/features/TokenManagement';
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
@@ -25,18 +23,38 @@ export function SignPage(): JSX.Element {
     formState: { errors },
   } = useForm({ defaultValues: { name: '', email: '', password: '' } });
   const [signIn, setSignIn] = useState(true);
+
   const authCtx = useAuth();
 
   useEffect(() => {
-    if (authCtx.isSignedIn && authCtx.token) {
-      navigate('/my', { replace: true });
-    }
+    const savedToken = getToken();
+    signToken(savedToken);
+    authCtx.isSignedIn = true;
   }, []);
 
   const signUpToggleHandler = () => {
     setSignIn((prevState) => {
       return !prevState;
     });
+  };
+  const signRoute: string = signIn ? 'auth/signin' : 'auth/signup';
+
+  const signToken = (token: string | null) => {
+    return axios({
+      url: 'auth/signToken',
+      method: 'Post',
+      data: token,
+      timeout: 5000,
+      headers: { Accept: 'application/json' },
+    })
+      .then((res) => {
+        setToken(res.data.token);
+
+        return Promise.resolve(res);
+      })
+      .catch((err) => {
+        return Promise.reject(err);
+      });
   };
 
   const submitHandler = ({
@@ -55,8 +73,6 @@ export function SignPage(): JSX.Element {
     };
 
     const PROFESSOR_ROLE = ['professor']; // default role on signUp
-
-    const signRoute: string = signIn ? 'auth/signin' : 'auth/signup';
 
     if (!signIn) {
       axios
@@ -84,15 +100,13 @@ export function SignPage(): JSX.Element {
           withCredentials: true,
         })
         .then((res) => {
-          const accessToken = res.data.user.token;
-          const refreshToken = res.data.user.refreshToken;
+          const accessToken = res.data.token;
           const user = res.data.user;
           console.log(res.data);
 
           authCtx.signin(accessToken, user);
           authCtx.isSignedIn = true;
-          // setToken(accessToken);
-          // setRefreshToken(refreshToken);
+          setToken(accessToken);
 
           console.log('User logged In');
           navigate('/my', { replace: true });

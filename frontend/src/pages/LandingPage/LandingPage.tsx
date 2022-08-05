@@ -2,26 +2,26 @@ import { Button, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import HeroImage from '../../assets/Work.png';
-import { useContext, useEffect } from 'react';
-import AuthContext from '../../shared/store/auth-context';
-import { getToken } from '../../shared/features/TokenManagement';
+// import { useContext, useEffect } from 'react';
+// import AuthContext from '../../shared/store/auth-context';
+// import { getToken } from '../../shared/features/TokenManagement';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
-  const authCtx = useContext(AuthContext);
+  // const authCtx = useContext(AuthContext);
 
-  const readCookie = () => {
-    const userCookie = getToken();
-    if (userCookie) {
-      authCtx.isSignedIn = true;
-      navigate('/my', { replace: true });
-      return;
-    }
-  };
+  // const readCookie = () => {
+  //   const userCookie = getToken();
+  //   if (userCookie) {
+  //     authCtx.isSignedIn = true;
+  //     navigate('/my', { replace: true });
+  //     return;
+  //   }
+  // };
 
-  useEffect(() => {
-    readCookie();
-  }, []);
+  // useEffect(() => {
+  //   readCookie();
+  // }, []);
 
   const clickHandler = () => {
     navigate('/sign');
