@@ -37,11 +37,9 @@ export class AuthService {
     const token = await this.jwtService.sign(payload);
     await this.tokenService.saveToken(token, user.email);
 
-    console.log(token);
-
     return {
       token,
-      payload,
+      // payload,
     };
   }
 }

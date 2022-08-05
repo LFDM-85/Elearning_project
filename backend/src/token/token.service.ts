@@ -22,7 +22,6 @@ export class TokenService {
 
   async saveToken(hash: string, useremail: string) {
     const dbToken = await this.tokenModel.findOne({ useremail: useremail });
-    console.log(dbToken);
     if (dbToken) {
       await this.tokenModel.remove({ _id: dbToken.id });
       const newToken = await this.tokenModel.create({
@@ -41,10 +40,9 @@ export class TokenService {
 
   async refreshToken(oldToken: string) {
     const dbToken = await this.tokenModel.findOne({ hash: oldToken });
-    console.log(dbToken);
 
     if (dbToken) {
-      const user = await this.usersService.findOne(dbToken.useremail);
+      const user = await this.usersService.findEmail(dbToken.useremail);
       return this.authService.signin(user);
     } else {
       return new HttpException(
