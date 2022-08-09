@@ -23,7 +23,7 @@ export class TokenService {
   async saveToken(hash: string, useremail: string) {
     const dbToken = await this.tokenModel.findOne({ useremail: useremail });
     if (dbToken) {
-      await this.tokenModel.remove({ _id: dbToken.id });
+      await this.tokenModel.deleteMany({ _id: dbToken.id });
       const newToken = await this.tokenModel.create({
         hash,
         useremail,
@@ -43,7 +43,7 @@ export class TokenService {
 
     if (dbToken) {
       const user = await this.usersService.findEmail(dbToken.useremail);
-      return this.authService.signin(user);
+      return this.authService.signin(user.toJSON());
     } else {
       return new HttpException(
         {

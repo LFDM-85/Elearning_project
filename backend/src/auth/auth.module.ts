@@ -7,8 +7,6 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './constants';
-import { RefreshTokenStrategy } from './refresh-token.strategy';
-import { TokenService } from '../token/token.service';
 import { TokenModule } from '../token/token.module';
 
 @Module({

@@ -39,8 +39,7 @@ export class AuthService {
   }
 
   async signin(user: Users) {
-    // const user = { email: user.email, role: user.role, name: user.name };
-    const token = await this.jwtService.sign(user);
+    const token = this.jwtService.sign(user);
     await this.tokenService.saveToken(token, user.email);
 
     return {
