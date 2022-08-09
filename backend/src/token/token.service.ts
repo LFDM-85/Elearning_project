@@ -47,7 +47,7 @@ export class TokenService {
     } else {
       return new HttpException(
         {
-          errorMessage: 'Invalid token!',
+          errorMessage: 'Invalid token! You are not sign in!',
         },
         HttpStatus.UNAUTHORIZED,
       );
