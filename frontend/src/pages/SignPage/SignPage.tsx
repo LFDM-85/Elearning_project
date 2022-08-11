@@ -14,7 +14,8 @@ import { setToken } from '../../shared/features/TokenManagement';
 import useAuth from '../../shared/hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { getToken } from '../../shared/features/TokenManagement';
-import { signup } from '../../shared/features/SignServices';
+// import { signup } from '../../shared/features/SignServices';
+import { Checkbox, FormControlLabel } from '@mui/material';
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
@@ -205,6 +206,12 @@ export function SignPage(): JSX.Element {
               error={!!errors?.password}
               helperText={errors?.password ? errors.password.message : null}
             />
+            {signIn && (
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+            )}
             <Button
               type="submit"
               fullWidth

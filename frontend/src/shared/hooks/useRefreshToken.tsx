@@ -2,14 +2,20 @@ import axios from '../../interceptors/axios';
 import useAuth from './useAuth';
 
 const useRefreshToken = () => {
-  const authCtx = useAuth();
+  const { setUser }: any = useAuth();
 
-  return async () => {
-    const response = await axios.get('/auth/user', {withCredentials: true});
-    authCtx.token = response.data.user.token;
-
-    return response.data.user.token;
+  const refresh = async () => {
+    const response = await axios.put('/token/refresh', {
+      withCredentials: true,
+    });
+    setUser((prev: any) => {
+      console.log(JSON.stringify(prev));
+      console.log(response.data.accessToken);
+      return { ...prev, accessToken: response.data.token };
+    });
+    return response.data.token;
   };
+  return refresh;
 };
 
 export default useRefreshToken();
