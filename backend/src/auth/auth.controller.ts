@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
-import { Response, Request as Req } from 'express';
+import { Response} from 'express';
 // import { RefreshAuthGuard } from './refresh-auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
@@ -29,6 +29,17 @@ export class AuthController {
     const user = req.user;
 
     if (!user) throw new BadRequestException('invalid credentials');
+
+    const token = this.jwtService.sign(user);
+
+     const cookieOptions = {
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    };
+
+    // // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+   res.cookie('token', token, cookieOptions);
 
     return this.authService.signin(req.user);
   }

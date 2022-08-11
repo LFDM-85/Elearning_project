@@ -11,6 +11,7 @@ import { comparePasswords } from '../utils/bcrypt';
 import { Users } from '../users/entities/user.entity';
 
 import { TokenService } from 'src/token/token.service';
+import { response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -41,7 +42,6 @@ export class AuthService {
   async signin(user: Users) {
     const token = this.jwtService.sign(user);
     await this.tokenService.saveToken(token, user.email);
-
     return {
       token,
       user,
