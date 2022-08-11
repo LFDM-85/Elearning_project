@@ -11,11 +11,10 @@ import { comparePasswords } from '../utils/bcrypt';
 import { Users } from '../users/entities/user.entity';
 
 import { TokenService } from 'src/token/token.service';
-import { response } from 'express';
 
 @Injectable()
 export class AuthService {
-  private user: Users;
+  // private user: Users;
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
