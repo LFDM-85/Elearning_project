@@ -33,6 +33,7 @@ export const AppRoutes = () => {
             setSignedUser(true);
             navigate('/my', { replace: true });
           }
+          if (!signUser) navigate('/', { replace: true });
         })
         .catch(function (error) {
           console.log(error);
@@ -44,8 +45,19 @@ export const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<LayoutRoutes />}>
         {/* public routes */}
-        <Route path="/" element={<LandingPage />} />
-        {signedUser && (
+        {!signedUser ? (
+          <Route path="/" element={<LandingPage />} />
+        ) : (
+          <Route
+            path="/my"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <MyPage currUser={'User'} />
+              </Suspense>
+            }
+          />
+        )}
+        {!signedUser ? (
           <Route
             path="/sign"
             element={
@@ -54,29 +66,46 @@ export const AppRoutes = () => {
               </Suspense>
             }
           />
+        ) : (
+          <Route
+            path="/my"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <MyPage currUser={'User'} />
+              </Suspense>
+            }
+          />
         )}
-        {!signedUser && (
+        {!signedUser ? (
           <Route path="/unauthorized" element={<Unauthorized />} />
+        ) : (
+          <Route
+            path="/my"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <MyPage currUser={'User'} />
+              </Suspense>
+            }
+          />
         )}
 
         {/*  private routes */}
         {/*Separate Protected Nested Routes with every role. For now Admin, Student and Professor are allowed */}
-        {signedUser && (
+
+        <Route
+          element={
+            <RequireAuth allowedRoles={['admin', 'student', 'professor']} />
+          }
+        >
           <Route
+            path="/my"
             element={
-              <RequireAuth allowedRoles={['admin', 'student', 'professor']} />
+              <Suspense fallback={<div>Loading...</div>}>
+                <MyPage currUser={'User'} />
+              </Suspense>
             }
-          >
-            <Route
-              path="/my"
-              element={
-                <Suspense fallback={<div>Loading...</div>}>
-                  <MyPage currUser={'User'} />
-                </Suspense>
-              }
-            />
-          </Route>
-        )}
+          />
+        </Route>
 
         {/* catch all */}
         <Route path="*" element={<Navigate to="/" />} />
