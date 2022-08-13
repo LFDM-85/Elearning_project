@@ -36,7 +36,7 @@ export const signup = (route: string, inputs: any) => {
 };
 // export const signToken = () => {};
 export const signout = () => {
-  axios.post('/auth/signout', {}, { withCredentials: true }).then((res) => {
+  axios.post('/auth/signout').then((res) => {
     alert('User logged Out');
     console.log('User logged Out');
     localStorage.clear();

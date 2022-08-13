@@ -10,10 +10,9 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from '../../interceptors/axios';
 import { useNavigate } from 'react-router-dom';
-import { setToken } from '../../shared/features/TokenManagement';
+import { setToken, getToken } from '../../shared/features/CookieManagement';
 import useAuth from '../../shared/hooks/useAuth';
 import { useForm } from 'react-hook-form';
-import { getToken } from '../../shared/features/TokenManagement';
 // import { signup } from '../../shared/features/SignServices';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
@@ -27,12 +26,6 @@ export function SignPage(): JSX.Element {
   const [signIn, setSignIn] = useState(true);
 
   const authCtx = useAuth();
-
-  useEffect(() => {
-    const savedToken = getToken();
-    signToken(savedToken);
-    authCtx.isSignedIn = true;
-  }, []);
 
   const signUpToggleHandler = () => {
     setSignIn((prevState) => {
@@ -50,7 +43,7 @@ export function SignPage(): JSX.Element {
       headers: { Accept: 'application/json' },
     })
       .then((res) => {
-        setToken(res.data.token);
+        setToken(res.data.token, res.data.user);
 
         return Promise.resolve(res);
       })
@@ -108,7 +101,7 @@ export function SignPage(): JSX.Element {
 
           authCtx.signin(accessToken, user);
           authCtx.isSignedIn = true;
-          setToken(accessToken);
+          // setToken(accessToken, user);
 
           console.log('User logged In');
           navigate('/my', { replace: true });

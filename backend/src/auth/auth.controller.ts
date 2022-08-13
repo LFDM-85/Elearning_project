@@ -7,6 +7,7 @@ import {
   // Get,
   BadRequestException,
   Body,
+  Get,
   // UnauthorizedException,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
@@ -44,10 +45,18 @@ export class AuthController {
     return this.authService.signin(req.user);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('auth/signToken')
   async signToken(@Request() req, @Body() data) {
     console.log(data);
 
     return this.authService.signToken(data.token);
   }
+
+  @Post('auth/signout')
+        logout(@Request() req): any {
+          req.session.destroy();
+          return { msg: 'The user session has ended' }
+        }
+    
 }

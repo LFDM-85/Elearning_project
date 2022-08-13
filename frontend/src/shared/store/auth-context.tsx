@@ -15,7 +15,7 @@ const initialUser = {
 };
 
 const AuthContext = React.createContext({
-  token: '',
+  token: undefined,
   isSignedIn: false,
   user: initialUser,
   signin: (token: string, user: IUser) => {
@@ -27,11 +27,12 @@ const AuthContext = React.createContext({
 });
 
 export const AuthContextProvider = (props: any) => {
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState();
   const [user, setUser] = useState(initialUser);
   const userIsSignedIn = !!token;
 
   const signinHandler = (token: string, user: IUser) => {
+    localStorage.setItem('isAuthenticated', 'true');
     // setToken(token);
     setUser({
       email: user.email,
@@ -42,7 +43,7 @@ export const AuthContextProvider = (props: any) => {
   };
 
   const signoutHandler = () => {
-    setToken('');
+    setToken(undefined);
     setUser(initialUser);
   };
 

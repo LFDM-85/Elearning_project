@@ -41,6 +41,7 @@ export class UsersService {
   }
 
   async whoami(email: string) {
-    return await this.usersModel.find({ email });
+    
+    return await this.usersModel.findOne({ email }).exec();
   }
 }
