@@ -5,6 +5,8 @@ import Unauthorized from '../pages/Unauthorized/Unauthorized';
 import { Suspense, lazy, useEffect, useState } from 'react';
 import RequireAuth from '../shared/features/RequireAuth';
 import axios from '../interceptors/axios';
+import { Loading } from '../shared/components/Loading/Loading';
+import { MyPageRoute } from '../shared/components/MyPageRoute/MyPageRoute';
 export const AppRoutes = () => {
   const [signedUser, setSignedUser] = useState(false);
   const navigate = useNavigate();
@@ -46,47 +48,33 @@ export const AppRoutes = () => {
       <Route path="/" element={<LayoutRoutes />}>
         {/* public routes */}
         {!signedUser ? (
-          <Route path="/" element={<LandingPage />} />
-        ) : (
           <Route
-            path="/my"
+            path="/"
             element={
-              <Suspense fallback={<div>Loading...</div>}>
-                <MyPage currUser={'User'} />
+              <Suspense fallback={<Loading />}>
+                <LandingPage />
               </Suspense>
             }
           />
+        ) : (
+          <Route path="/my" element={<MyPageRoute />} />
         )}
         {!signedUser ? (
           <Route
             path="/sign"
             element={
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loading />}>
                 <SignPage />
               </Suspense>
             }
           />
         ) : (
-          <Route
-            path="/my"
-            element={
-              <Suspense fallback={<div>Loading...</div>}>
-                <MyPage currUser={'User'} />
-              </Suspense>
-            }
-          />
+          <Route path="/my" element={<MyPageRoute />} />
         )}
         {!signedUser ? (
           <Route path="/unauthorized" element={<Unauthorized />} />
         ) : (
-          <Route
-            path="/my"
-            element={
-              <Suspense fallback={<div>Loading...</div>}>
-                <MyPage currUser={'User'} />
-              </Suspense>
-            }
-          />
+          <Route path="/my" element={<MyPageRoute />} />
         )}
 
         {/*  private routes */}
@@ -97,14 +85,7 @@ export const AppRoutes = () => {
             <RequireAuth allowedRoles={['admin', 'student', 'professor']} />
           }
         >
-          <Route
-            path="/my"
-            element={
-              <Suspense fallback={<div>Loading...</div>}>
-                <MyPage currUser={'User'} />
-              </Suspense>
-            }
-          />
+          <Route path="/my" element={<MyPageRoute />} />
         </Route>
 
         {/* catch all */}
