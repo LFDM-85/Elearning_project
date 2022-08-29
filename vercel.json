@@ -6,7 +6,7 @@
   },
   "builds": [
     {
-      "src": "backend/build/main.js",
+      "src": "backend/src/main.ts",
       "use": "@vercel/node"
     },
     {
@@ -17,14 +17,14 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "backend/build/main.js",
+      "dest": "backend/src/main.ts",
       "methods": ["GET", "POST", "PUT", "DELETE"]
     },
     { "src": "/(.*).(js|css|ico)", "dest": "frontend/*" },
     { "src": "/(.*)", "dest": "frontend/build/index.html" },
     {
       "src": "/(.*)",
-      "dest": "backend/build/main.js"
+      "dest": "backend/src/main.ts"
     }
   ]
 }
