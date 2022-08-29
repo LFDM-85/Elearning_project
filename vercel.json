@@ -23,16 +23,16 @@
       "src": "/(.*)",
       "dest": "/backend/dist/main.js",
       "methods": ["GET", "POST", "PUT", "DELETE"]
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/frontend/build/assets/$1"
-    },
-    { "src": "/(.*).(js|css|ico)", "dest": "/frontend/*" },
-    { "src": "/(.*)", "dest": "/frontend/public/index.html" },
-    {
-      "src": "/(.*)",
-      "dest": "/backend/dist/main.js"
     }
+    // {
+    //   "src": "/assets/(.*)",
+    //   "dest": "/frontend/build/assets/$1"
+    // },
+    // { "src": "/(.*).(js|css|ico)", "dest": "/frontend/*" },
+    // { "src": "/(.*)", "dest": "/frontend/public/index.html" },
+    // {
+    //   "src": "/(.*)",
+    //   "dest": "/backend/dist/main.js"
+    // }
   ]
 }
