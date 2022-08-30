@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from '../../interceptors/axios';
 import { useNavigate } from 'react-router-dom';
-import { setToken, getToken } from '../../shared/features/CookieManagement';
+// import { setToken, getToken } from '../../shared/features/CookieManagement';
 import useAuth from '../../shared/hooks/useAuth';
 import { useForm } from 'react-hook-form';
 // import { signup } from '../../shared/features/SignServices';
@@ -22,7 +22,9 @@ export function SignPage(): JSX.Element {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { name: '', email: '', password: '' } });
+  } = useForm({
+    defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
+  });
   const [signIn, setSignIn] = useState(true);
 
   const authCtx = useAuth();
@@ -34,58 +36,65 @@ export function SignPage(): JSX.Element {
   };
   const signRoute: string = signIn ? 'auth/signin' : 'auth/signup';
 
-  const signToken = async (token: string | null) => {
-    return axios({
-      url: 'auth/signToken',
-      method: 'Post',
-      data: token,
-      timeout: 5000,
-      headers: { Accept: 'application/json' },
-    })
-      .then((res) => {
-        setToken(res.data.token, res.data.user);
+  // const signToken = async (token: string | null) => {
+  //   return axios({
+  //     url: 'auth/signToken',
+  //     method: 'Post',
+  //     data: token,
+  //     timeout: 5000,
+  //     headers: { Accept: 'application/json' },
+  //   })
+  //     .then((res) => {
+  //       setToken(res.data.token, res.data.user);
 
-        return Promise.resolve(res);
-      })
-      .catch((err) => {
-        return Promise.reject(err);
-      });
-  };
+  //       return Promise.resolve(res);
+  //     })
+  //     .catch((err) => {
+  //       return Promise.reject(err);
+  //     });
+  // };
 
   const submitHandler = async ({
     name,
     email,
     password,
+    confirmPassword,
   }: {
     name: string;
     email: string;
     password: string;
+    confirmPassword: string;
   }) => {
     const inputs = {
       name,
       email,
       password,
+      confirmPassword,
     };
 
     const PROFESSOR_ROLE = ['professor']; // default role on signUp
 
     if (!signIn) {
-      axios
-        .post(signRoute, { ...inputs, role: PROFESSOR_ROLE })
-        .then((res) => {
-          if (res.status === 201) {
-            alert('User was created! Please Sign In');
-            console.log('User created');
+      if (inputs.password === inputs.confirmPassword) {
+        axios
+          .post(signRoute, { ...inputs, role: PROFESSOR_ROLE })
+          .then((res) => {
+            if (res.status === 201) {
+              alert('User was created! Please Sign In');
+              console.log('User created');
+              navigate('/sign', { replace: true });
+              return;
+            }
+          })
+          .catch(function (error) {
+            alert('Email already exists!');
             navigate('/sign', { replace: true });
+            console.log(error.message);
             return;
-          }
-        })
-        .catch(function (error) {
-          alert('Email already exists!');
-          navigate('/sign', { replace: true });
-          console.log(error.message);
-          return;
-        });
+          });
+      } else {
+        alert('The inputed passwords are different!');
+      }
     }
 
     if (signIn) {
@@ -156,7 +165,17 @@ export function SignPage(): JSX.Element {
                 fullWidth
                 id="name"
                 label="Your Name"
-                {...register('name', { required: 'Name is required!' })}
+                {...register('name', {
+                  required: 'Name is required!',
+                  minLength: {
+                    value: 8,
+                    message: 'Invalid name, must have at least 8 characters',
+                  },
+                  maxLength: {
+                    value: 25,
+                    message: 'Invalid name, must have less then 25 characters',
+                  },
+                })}
                 autoComplete="name"
                 autoFocus
                 error={!!errors?.name}
@@ -191,6 +210,11 @@ export function SignPage(): JSX.Element {
                   value: 8,
                   message: 'Invalid password, must have at least 8 characters',
                 },
+                maxLength: {
+                  value: 25,
+                  message:
+                    'Invalid password, must have less then 25 characters',
+                },
               })}
               label="Password"
               type="password"
@@ -198,6 +222,31 @@ export function SignPage(): JSX.Element {
               autoComplete="current-password"
               error={!!errors?.password}
               helperText={errors?.password ? errors.password.message : null}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              {...register('confirmPassword', {
+                required: 'Confirm password is required!',
+                minLength: {
+                  value: 8,
+                  message: 'Invalid password, must have at least 8 characters',
+                },
+                maxLength: {
+                  value: 25,
+                  message:
+                    'Invalid password, must have less then 25 characters',
+                },
+              })}
+              label="Confirm Password"
+              type="password"
+              id="confirmPassword"
+              autoComplete="confirm-password"
+              error={!!errors?.confirmPassword}
+              helperText={
+                errors?.confirmPassword ? errors.confirmPassword.message : null
+              }
             />
             {signIn && (
               <FormControlLabel
