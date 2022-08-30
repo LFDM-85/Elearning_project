@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -10,11 +10,15 @@ import Typography from '@mui/material/Typography';
 import SignImage from '../../assets/user-login.svg';
 import axios from '../../interceptors/axios';
 import { useNavigate } from 'react-router-dom';
-// import { setToken, getToken } from '../../shared/features/CookieManagement';
 import useAuth from '../../shared/hooks/useAuth';
 import { useForm } from 'react-hook-form';
-// import { signup } from '../../shared/features/SignServices';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import {
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export function SignPage(): JSX.Element {
   const navigate = useNavigate();
@@ -26,6 +30,10 @@ export function SignPage(): JSX.Element {
     defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
   });
   const [signIn, setSignIn] = useState(true);
+  const [showFields, setShowFields] = useState({
+    showPassword: false,
+    showConfirmPassword: false,
+  });
 
   const authCtx = useAuth();
 
@@ -34,25 +42,21 @@ export function SignPage(): JSX.Element {
       return !prevState;
     });
   };
+
+  const showPasswordHandler = () => {
+    setShowFields({
+      ...showFields,
+      showPassword: !showFields.showPassword,
+    });
+  };
+
+  const showConfirmPasswordHandler = () => {
+    setShowFields({
+      ...showFields,
+      showConfirmPassword: !showFields.showConfirmPassword,
+    });
+  };
   const signRoute: string = signIn ? 'auth/signin' : 'auth/signup';
-
-  // const signToken = async (token: string | null) => {
-  //   return axios({
-  //     url: 'auth/signToken',
-  //     method: 'Post',
-  //     data: token,
-  //     timeout: 5000,
-  //     headers: { Accept: 'application/json' },
-  //   })
-  //     .then((res) => {
-  //       setToken(res.data.token, res.data.user);
-
-  //       return Promise.resolve(res);
-  //     })
-  //     .catch((err) => {
-  //       return Promise.reject(err);
-  //     });
-  // };
 
   const submitHandler = async ({
     name,
@@ -93,7 +97,7 @@ export function SignPage(): JSX.Element {
             return;
           });
       } else {
-        alert('The inputed passwords are different!');
+        alert('The inputed passwords are different! Try again');
       }
     }
 
@@ -110,7 +114,6 @@ export function SignPage(): JSX.Element {
 
           authCtx.signin(accessToken, user);
           authCtx.isSignedIn = true;
-          // setToken(accessToken, user);
 
           console.log('User logged In');
           navigate('/my', { replace: true });
@@ -217,37 +220,77 @@ export function SignPage(): JSX.Element {
                 },
               })}
               label="Password"
-              type="password"
+              type={showFields.showPassword ? 'text' : 'password'}
               id="password"
               autoComplete="current-password"
               error={!!errors?.password}
               helperText={errors?.password ? errors.password.message : null}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={showPasswordHandler}
+                      aria-label="toggle password"
+                      edge="end"
+                    >
+                      {showFields.showPassword ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              {...register('confirmPassword', {
-                required: 'Confirm password is required!',
-                minLength: {
-                  value: 8,
-                  message: 'Invalid password, must have at least 8 characters',
-                },
-                maxLength: {
-                  value: 25,
-                  message:
-                    'Invalid password, must have less then 25 characters',
-                },
-              })}
-              label="Confirm Password"
-              type="password"
-              id="confirmPassword"
-              autoComplete="confirm-password"
-              error={!!errors?.confirmPassword}
-              helperText={
-                errors?.confirmPassword ? errors.confirmPassword.message : null
-              }
-            />
+            {!signIn && (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                {...register('confirmPassword', {
+                  required: 'Confirm password is required!',
+                  minLength: {
+                    value: 8,
+                    message:
+                      'Invalid password, must have at least 8 characters',
+                  },
+                  maxLength: {
+                    value: 25,
+                    message:
+                      'Invalid password, must have less then 25 characters',
+                  },
+                })}
+                label="Confirm Password"
+                type={showFields.showConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                autoComplete="confirm-password"
+                error={!!errors?.confirmPassword}
+                helperText={
+                  errors?.confirmPassword
+                    ? errors.confirmPassword.message
+                    : null
+                }
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={showConfirmPasswordHandler}
+                        aria-label="toggle password"
+                        edge="end"
+                      >
+                        {showFields.showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+
             {signIn && (
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
