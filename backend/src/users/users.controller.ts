@@ -3,20 +3,14 @@ import {
   Get,
   Post,
   Body,
-  // Patch,
   Param,
-  // Delete,
   Query,
   UseGuards,
-  Res,
   Request
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-// import { CurrentUser } from './decorators/current-user.decorator';
-// import { Users } from './entities/user.entity';
-import { Response } from 'express';
 import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
 @Controller('auth')
@@ -33,12 +27,7 @@ export class UsersController {
     );
   }
 
-  // @Post('/signout')
-  // async logout(@Res({ passthrough: true }) response: Response) {
-  //   response.clearCookie('token');
-  // }
-
-   @UseGuards(AuthenticatedGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('/whoami')
   async whoami(@ Request() req): Promise<string> {
     return req.user;

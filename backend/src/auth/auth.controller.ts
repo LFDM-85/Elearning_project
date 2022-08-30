@@ -4,16 +4,12 @@ import {
   Request,
   Post,
   Res,
-  // Get,
   BadRequestException,
   Body,
-  Get,
-  // UnauthorizedException,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { Response} from 'express';
-// import { RefreshAuthGuard } from './refresh-auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 

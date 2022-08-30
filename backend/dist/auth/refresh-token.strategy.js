@@ -33,8 +33,6 @@ let RefreshTokenStrategy = class RefreshTokenStrategy extends (0, passport_1.Pas
         });
         this.authService = authService;
     }
-    async validate(req, payload) {
-    }
 };
 RefreshTokenStrategy = __decorate([
     (0, common_1.Injectable)(),
