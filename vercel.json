@@ -7,7 +7,7 @@
 
   "builds": [
     {
-      "src": "/backend/src/main.ts",
+      "src": "/backend/dist/main.js",
       "use": "@vercel/node"
     },
     {
@@ -16,7 +16,7 @@
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/backend/src/main.ts" },
+    { "src": "/(.*)", "dest": "/backend/dist/main.js" },
     { "handle": "filesystem" },
     {
       "src": "/assets/(.*)",
