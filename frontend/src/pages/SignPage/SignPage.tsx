@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -29,11 +29,17 @@ export function SignPage(): JSX.Element {
   } = useForm({
     defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
   });
+
   const [signIn, setSignIn] = useState(true);
   const [showFields, setShowFields] = useState({
     showPassword: false,
     showConfirmPassword: false,
   });
+
+  const [confirmPassword, setConfirmPassword] = useState(false);
+  const [confirmPasswordChange, setConfirmPasswordChange] = useState(false);
+  const [showConfirmPasswordError, setShowConfirmPasswordError] =
+    useState(false);
 
   const authCtx = useAuth();
 
@@ -56,6 +62,21 @@ export function SignPage(): JSX.Element {
       showConfirmPassword: !showFields.showConfirmPassword,
     });
   };
+
+  const validateConfirmPasswordHandler = () => {
+    setConfirmPasswordChange(true);
+  };
+
+  useEffect(() => {
+    if (confirmPasswordChange) {
+      if (confirmPassword) {
+        setShowConfirmPasswordError(false);
+      } else {
+        setShowConfirmPasswordError(true);
+      }
+    }
+  }, [confirmPasswordChange]);
+
   const signRoute: string = signIn ? 'auth/signin' : 'auth/signup';
 
   const submitHandler = async ({
@@ -80,6 +101,7 @@ export function SignPage(): JSX.Element {
 
     if (!signIn) {
       if (inputs.password === inputs.confirmPassword) {
+        setConfirmPassword(false);
         axios
           .post(signRoute, { ...inputs, role: PROFESSOR_ROLE })
           .then((res) => {
@@ -97,6 +119,7 @@ export function SignPage(): JSX.Element {
             return;
           });
       } else {
+        setConfirmPassword(true);
         alert('The inputed passwords are different! Try again');
       }
     }
@@ -172,7 +195,8 @@ export function SignPage(): JSX.Element {
                   required: 'Name is required!',
                   minLength: {
                     value: 8,
-                    message: 'Invalid name, must have at least 8 characters',
+                    message:
+                      'Invalid name, must have between 8 to 25 characters',
                   },
                   maxLength: {
                     value: 25,
@@ -183,6 +207,7 @@ export function SignPage(): JSX.Element {
                 autoFocus
                 error={!!errors?.name}
                 helperText={errors?.name ? errors.name.message : null}
+                inputProps={{ maxLength: 25 }}
               />
             )}
             <TextField
@@ -211,7 +236,8 @@ export function SignPage(): JSX.Element {
                 required: 'Password is required!',
                 minLength: {
                   value: 8,
-                  message: 'Invalid password, must have at least 8 characters',
+                  message:
+                    'Invalid password, must have between 8 to 25 characters',
                 },
                 maxLength: {
                   value: 25,
@@ -225,6 +251,7 @@ export function SignPage(): JSX.Element {
               autoComplete="current-password"
               error={!!errors?.password}
               helperText={errors?.password ? errors.password.message : null}
+              inputProps={{ maxLength: 25 }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -253,7 +280,7 @@ export function SignPage(): JSX.Element {
                   minLength: {
                     value: 8,
                     message:
-                      'Invalid password, must have at least 8 characters',
+                      'Invalid password, must have between 8 to 25 characters',
                   },
                   maxLength: {
                     value: 25,
@@ -267,10 +294,12 @@ export function SignPage(): JSX.Element {
                 autoComplete="confirm-password"
                 error={!!errors?.confirmPassword}
                 helperText={
-                  errors?.confirmPassword
-                    ? errors.confirmPassword.message
-                    : null
+                  !showConfirmPasswordError && confirmPassword
+                    ? null
+                    : 'Passwords do not match'
                 }
+                inputProps={{ maxLength: 25 }}
+                onChange={validateConfirmPasswordHandler}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
