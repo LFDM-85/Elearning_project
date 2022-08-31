@@ -8,24 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenModule = void 0;
 const common_1 = require("@nestjs/common");
-const token_service_1 = require("./token.service");
-const mongoose_1 = require("@nestjs/mongoose");
-const token_schema_1 = require("./schema/token.schema");
-const token_controller_1 = require("./token.controller");
-const users_module_1 = require("../users/users.module");
-const auth_module_1 = require("../auth/auth.module");
 let TokenModule = class TokenModule {
 };
 TokenModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: 'Token', schema: token_schema_1.TokenSchema }]),
-            users_module_1.UsersModule,
-            (0, common_1.forwardRef)(() => auth_module_1.AuthModule),
-        ],
-        controllers: [token_controller_1.TokenController],
-        providers: [token_service_1.TokenService],
-        exports: [token_service_1.TokenService],
+        imports: [],
+        controllers: [],
+        providers: [],
+        exports: [],
     })
 ], TokenModule);
 exports.TokenModule = TokenModule;

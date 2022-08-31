@@ -11,9 +11,5 @@ export declare class AuthController {
         token: string;
         user: import("../users/entities/user.entity").Users;
     }>;
-    signToken(req: any, data: any): Promise<import("@nestjs/common").HttpException | {
-        token: string;
-        user: import("../users/entities/user.entity").Users;
-    }>;
     logout(req: any): any;
 }

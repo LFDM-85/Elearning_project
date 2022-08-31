@@ -28,17 +28,7 @@ let AuthController = class AuthController {
         const user = req.user;
         if (!user)
             throw new common_1.BadRequestException('invalid credentials');
-        const token = this.jwtService.sign(user);
-        const cookieOptions = {
-            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-            httpOnly: true,
-        };
-        res.cookie('token', token, cookieOptions);
         return this.authService.signin(req.user);
-    }
-    async signToken(req, data) {
-        console.log(data);
-        return this.authService.signToken(data.token);
     }
     logout(req) {
         req.session.destroy();
@@ -54,15 +44,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signin", null);
-__decorate([
-    (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
-    (0, common_1.Post)('auth/signToken'),
-    __param(0, (0, common_1.Request)()),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], AuthController.prototype, "signToken", null);
 __decorate([
     (0, common_1.Post)('auth/signout'),
     __param(0, (0, common_1.Request)()),

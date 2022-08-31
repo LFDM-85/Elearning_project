@@ -4,7 +4,6 @@ import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { ExtractJwt } from "passport-jwt";
 import { jwtConstants } from "./constants";
-import { Request } from "express";
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -13,7 +12,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       usernameField: 'email',
       passwordField: 'password',
       jwtFromRequest: ExtractJwt.fromExtractors([
-        LocalStrategy.extractJWT,
         ExtractJwt.fromAuthHeaderAsBearerToken()
       ]),
       ignoreExpiration: false,
@@ -21,14 +19,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  private static extractJWT(req: Request): string | null {
-    if(
-      req.cookies && 'token' in req.cookies && req.cookies.token.length > 0
-    ) {
-      return req.cookies.token
-    }
-    return null
-  }
 
   async validate(email: string, password: string): Promise<any> {
     const user = await this.authService.validateUser(email, password);

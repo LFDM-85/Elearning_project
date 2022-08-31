@@ -5,7 +5,6 @@ import {
   Post,
   Res,
   BadRequestException,
-  Body,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
@@ -27,26 +26,7 @@ export class AuthController {
 
     if (!user) throw new BadRequestException('invalid credentials');
 
-    const token = this.jwtService.sign(user);
-
-     const cookieOptions = {
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      httpOnly: true,
-    };
-
-    // // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-
-   res.cookie('token', token, cookieOptions);
-
     return this.authService.signin(req.user);
-  }
-
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/signToken')
-  async signToken(@Request() req, @Body() data) {
-    console.log(data);
-
-    return this.authService.signToken(data.token);
   }
 
   @Post('auth/signout')

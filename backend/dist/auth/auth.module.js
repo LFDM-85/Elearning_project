@@ -16,14 +16,12 @@ const jwt_strategy_1 = require("./jwt.strategy");
 const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
 const constants_1 = require("./constants");
-const token_module_1 = require("../token/token.module");
 const session_serializer_1 = require("./session.serializer");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            token_module_1.TokenModule,
             users_module_1.UsersModule,
             passport_1.PassportModule.register({
                 session: true,

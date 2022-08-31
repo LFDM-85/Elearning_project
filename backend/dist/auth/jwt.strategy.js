@@ -8,29 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var JwtStrategy_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtStrategy = void 0;
 const passport_jwt_1 = require("passport-jwt");
 const passport_1 = require("@nestjs/passport");
 const common_1 = require("@nestjs/common");
 const constants_1 = require("./constants");
-let JwtStrategy = JwtStrategy_1 = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
+let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
     constructor() {
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromExtractors([
-                JwtStrategy_1.extractJWT,
-                passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken()
+                passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
             ]),
             ignoreExpiration: false,
             secretOrKey: constants_1.jwtConstants.secret,
         });
-    }
-    static extractJWT(req) {
-        if (req.cookies && 'token' in req.cookies && req.cookies.token.length > 0) {
-            return req.cookies.token;
-        }
-        return null;
     }
     async validate(payload) {
         if (payload === null)
@@ -43,7 +35,7 @@ let JwtStrategy = JwtStrategy_1 = class JwtStrategy extends (0, passport_1.Passp
         };
     }
 };
-JwtStrategy = JwtStrategy_1 = __decorate([
+JwtStrategy = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [])
 ], JwtStrategy);

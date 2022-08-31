@@ -1,8 +1,4 @@
 import {
-  forwardRef,
-  HttpException,
-  HttpStatus,
-  Inject,
   Injectable,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
@@ -10,7 +6,6 @@ import { JwtService } from '@nestjs/jwt';
 import { comparePasswords } from '../utils/bcrypt';
 import { Users } from '../users/entities/user.entity';
 
-import { TokenService } from 'src/token/token.service';
 
 @Injectable()
 export class AuthService {
@@ -18,8 +13,7 @@ export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
-    @Inject(forwardRef(() => TokenService))
-    private tokenService: TokenService,
+    
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -40,24 +34,9 @@ export class AuthService {
 
   async signin(user: Users) {
     const token = this.jwtService.sign(user);
-    await this.tokenService.saveToken(token, user.email);
     return {
       token,
       user,
     };
-  }
-
-  async signToken(token: string) {
-    const user = await this.tokenService.getUserByToken(token);
-    if (user) {
-      return this.signin(user.user);
-    } else {
-      return new HttpException(
-        {
-          errorMessage: 'Invalid token!',
-        },
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
   }
 }

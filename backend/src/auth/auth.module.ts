@@ -7,12 +7,10 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './constants';
-import { TokenModule } from '../token/token.module';
 import { SessionSerializer } from './session.serializer';
 
 @Module({
   imports: [
-    TokenModule,
     UsersModule,
     PassportModule.register({
       session: true,

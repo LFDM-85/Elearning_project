@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var LocalStrategy_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LocalStrategy = void 0;
 const common_1 = require("@nestjs/common");
@@ -17,25 +16,18 @@ const passport_1 = require("@nestjs/passport");
 const auth_service_1 = require("./auth.service");
 const passport_jwt_1 = require("passport-jwt");
 const constants_1 = require("./constants");
-let LocalStrategy = LocalStrategy_1 = class LocalStrategy extends (0, passport_1.PassportStrategy)(passport_local_1.Strategy) {
+let LocalStrategy = class LocalStrategy extends (0, passport_1.PassportStrategy)(passport_local_1.Strategy) {
     constructor(authService) {
         super({
             usernameField: 'email',
             passwordField: 'password',
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromExtractors([
-                LocalStrategy_1.extractJWT,
                 passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken()
             ]),
             ignoreExpiration: false,
             secretOrKey: constants_1.jwtConstants.secret,
         });
         this.authService = authService;
-    }
-    static extractJWT(req) {
-        if (req.cookies && 'token' in req.cookies && req.cookies.token.length > 0) {
-            return req.cookies.token;
-        }
-        return null;
     }
     async validate(email, password) {
         const user = await this.authService.validateUser(email, password);
@@ -45,7 +37,7 @@ let LocalStrategy = LocalStrategy_1 = class LocalStrategy extends (0, passport_1
         return user;
     }
 };
-LocalStrategy = LocalStrategy_1 = __decorate([
+LocalStrategy = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], LocalStrategy);
