@@ -11,7 +11,7 @@
       "use": "@vercel/node"
     },
     {
-      "src": "/frontend/*",
+      "src": "/frontend/build/*",
       "use": "@vercel/static"
     }
   ],
@@ -22,7 +22,7 @@
       "src": "/assets/(.*)",
       "dest": "/frontend/public/assets/$1"
     },
-    { "src": "/(.*).(js|css|ico)", "dest": "/frontend/public/$1.$2" },
-    { "src": "/(.*)", "dest": "/frontend/public/index.html" }
+    { "src": "/(.*).(js|css|ico)", "dest": "/frontend/build/$1.$2" },
+    { "src": "/(.*)", "dest": "/frontend/build/index.html" }
   ]
 }
