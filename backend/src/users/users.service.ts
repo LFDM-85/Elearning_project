@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Users } from './entities/user.entity';
 import { encodePassword } from '../utils/bcrypt';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,8 +26,8 @@ export class UsersService {
     return user.save(); // saves the entity in MongoDB
   }
 
-  async findAll(email: string) {
-    return await this.usersModel.find({ email }).exec();
+  async findAll() {
+    return await this.usersModel.find().exec();
   }
 
   async findOne(condition: any): Promise<Users> {
@@ -43,5 +44,25 @@ export class UsersService {
   async whoami(email: string) {
     
     return await this.usersModel.findOne({ email }).exec();
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    return await this.usersModel.findByIdAndUpdate(
+      {
+      _id: id,
+      },
+      {
+        $set: updateUserDto,
+      },
+      {
+        new: true
+      },
+    )
+  }
+
+  async remove(id: string) {
+    return await this.usersModel.deleteOne({
+      _id: id
+    }).exec()
   }
 }

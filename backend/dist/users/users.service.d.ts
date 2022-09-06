@@ -24,13 +24,14 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
 import { Users } from './entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 export declare class UsersService {
     private usersModel;
     constructor(usersModel: Model<Users>);
     create(email: string, password: string, name: string, role: string[]): Promise<import("mongoose").Document<unknown, any, Users> & Users & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    findAll(email: string): Promise<(import("mongoose").Document<unknown, any, Users> & Users & {
+    findAll(): Promise<(import("mongoose").Document<unknown, any, Users> & Users & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
     findOne(condition: any): Promise<Users>;
@@ -40,4 +41,8 @@ export declare class UsersService {
     whoami(email: string): Promise<import("mongoose").Document<unknown, any, Users> & Users & {
         _id: import("mongoose").Types.ObjectId;
     }>;
+    update(id: string, updateUserDto: UpdateUserDto): Promise<import("mongoose").Document<unknown, any, Users> & Users & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
+    remove(id: string): Promise<import("mongodb").DeleteResult>;
 }

@@ -18,6 +18,7 @@ const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const authenticated_guard_1 = require("../auth/authenticated.guard");
+const update_user_dto_1 = require("./dto/update-user.dto");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -28,11 +29,17 @@ let UsersController = class UsersController {
     async whoami(req) {
         return req.user;
     }
-    findAllUsers(email) {
-        return this.usersService.findAll(email);
+    findAllUsers() {
+        return this.usersService.findAll();
     }
     findUser(email) {
         return this.usersService.findOne(email);
+    }
+    update(id, updateUserDto) {
+        return this.usersService.update(id, updateUserDto);
+    }
+    delete(id) {
+        return this.usersService.remove(id);
     }
 };
 __decorate([
@@ -51,11 +58,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "whoami", null);
 __decorate([
-    (0, common_1.Get)('/'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __param(0, (0, common_1.Query)('email')),
+    (0, common_1.Get)('/all'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findAllUsers", null);
 __decorate([
@@ -66,6 +71,21 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findUser", null);
+__decorate([
+    (0, common_1.Patch)('/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)('/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "delete", null);
 UsersController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

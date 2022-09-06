@@ -5,7 +5,7 @@ import { Loading } from '../Loading/Loading';
 export const MyPageRoute = () => {
   return (
     <Suspense fallback={<Loading />}>
-      <MyPage currUser={'User'} />
+      <MyPage currUser="User" />
     </Suspense>
   );
 };

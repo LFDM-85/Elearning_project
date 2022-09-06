@@ -35,8 +35,8 @@ let UsersService = class UsersService {
         });
         return user.save();
     }
-    async findAll(email) {
-        return await this.usersModel.find({ email }).exec();
+    async findAll() {
+        return await this.usersModel.find().exec();
     }
     async findOne(condition) {
         if (!condition) {
@@ -49,6 +49,20 @@ let UsersService = class UsersService {
     }
     async whoami(email) {
         return await this.usersModel.findOne({ email }).exec();
+    }
+    async update(id, updateUserDto) {
+        return await this.usersModel.findByIdAndUpdate({
+            _id: id,
+        }, {
+            $set: updateUserDto,
+        }, {
+            new: true
+        });
+    }
+    async remove(id) {
+        return await this.usersModel.deleteOne({
+            _id: id
+        }).exec();
     }
 };
 UsersService = __decorate([

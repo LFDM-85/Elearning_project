@@ -194,9 +194,9 @@ export function SignPage(): JSX.Element {
                 {...register('name', {
                   required: 'Name is required!',
                   minLength: {
-                    value: 8,
+                    value: 3,
                     message:
-                      'Invalid name, must have between 8 to 25 characters',
+                      'Invalid name, must have between 3 to 25 characters',
                   },
                   maxLength: {
                     value: 25,

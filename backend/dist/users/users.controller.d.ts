@@ -25,6 +25,7 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
@@ -32,8 +33,12 @@ export declare class UsersController {
         _id: import("mongoose").Types.ObjectId;
     }>;
     whoami(req: any): Promise<string>;
-    findAllUsers(email: string): Promise<(import("mongoose").Document<unknown, any, import("./entities/user.entity").Users> & import("./entities/user.entity").Users & {
+    findAllUsers(): Promise<(import("mongoose").Document<unknown, any, import("./entities/user.entity").Users> & import("./entities/user.entity").Users & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
     findUser(email: string): Promise<import("./entities/user.entity").Users>;
+    update(id: string, updateUserDto: UpdateUserDto): Promise<import("mongoose").Document<unknown, any, import("./entities/user.entity").Users> & import("./entities/user.entity").Users & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
+    delete(id: string): Promise<import("mongodb").DeleteResult>;
 }
