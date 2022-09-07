@@ -1,0 +1,44 @@
+{
+  "version": 2,
+  
+  "build": {
+    "env": {
+      "CI": "false",
+      "DATABASE_URL":"mongodb+srv://luismelo:3986088lm@cluster0.lbzvv.mongodb.net/?retryWrites=true&w=majority",
+      "SESSION_SECRET": "vwnrv03b8w4gr07dwbv78_&RE$DYCRVJBNILÇÇP__MNH30rb0"
+    }
+  
+},
+  
+  "builds": [
+    {
+      "src": "src/main.ts",
+      "use": "@vercel/node",
+    }
+    
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/main.ts",
+      "methods": [
+        "GET", "POST", "PATCH", "DELETE"
+      ]
+    },
+    {
+      "src": "/static/(.*)",
+      "headers": { "cache-control": "s-maxage=31536000,immutable" },
+      "dest": "fontend/static/$1"
+    },
+    {
+      "src": "^(.*)$",
+      "headers": { "cache-control": "s-maxage=0" },
+      "dest": "/frontend/index.html"
+    }
+  ],
+  "env": {
+    "CI": "false",
+      "DATABASE_URL":"mongodb+srv://luismelo:3986088lm@cluster0.lbzvv.mongodb.net/?retryWrites=true&w=majority",
+      "SESSION_SECRET": "vwnrv03b8w4gr07dwbv78_&RE$DYCRVJBNILÇÇP__MNH30rb0"
+    }
+}
