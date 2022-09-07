@@ -11,7 +11,7 @@
   
   "builds": [
     {
-      "src": "backend/dist/main.js",
+      "src": "/backend/src/main.ts",
       "use": "@vercel/node"
     }
   ],
