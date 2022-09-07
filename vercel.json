@@ -18,7 +18,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "backend/dist/main.js"
+      "dest": "backend/src/main.ts"
     }
   ],
   "env": {
