@@ -11,9 +11,16 @@
   
   "builds": [
     {
-      "src": "backend/src/main.ts",
+      "src": "backend/dist/main.js",
       "use": "@vercel/node",
       "config": { "distDir" : "build"}
+    }
+    
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "backend/dist/main.js"
     },
     {
       "src": "/static/(.*)",
@@ -24,12 +31,6 @@
       "src": "^(.*)$",
       "headers": { "cache-control": "s-maxage=0" },
       "dest": "/frontend/index.html"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "backend/dist/main.js"
     }
   ],
   "env": {
